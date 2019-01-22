@@ -6,6 +6,8 @@
 #include "coin.h"
 #include "waterball.h"
 #include "propulsion.h"
+#include "magnet.h"
+#include "firebeam.h"
 #include <iostream>
 #define INF 999999999
 #define pb push_back
@@ -24,14 +26,16 @@ float dist(float a, float b, float c, float d);
 
 Ball ball;
 Platform platform;
+Magnet magnet;
+vector <Firebeam> firebeams;
 vector <Coin> coins;
 vector <Fireline> firelines;
 vector <Waterball> waterballs;
 vector <Propulsion> gas;
 bounding_box_t b;
-color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIREBALL = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 51, 255};
+color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52};
 
-int NO_OF_FIRELINES = 10, NO_OF_COINS = 20, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0;
+int NO_OF_FIRELINES = 10, NO_OF_COINS = 20, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 3;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
 
@@ -86,6 +90,12 @@ void draw() {
     for (int i=0; i<NO_OF_GAS; ++i) {
         if (gas[i].position.y != INF)
             gas[i].draw(VP);
+    }
+    if (magnet.x > -3.8 && magnet.x < 3.8)
+        magnet.draw(VP);
+    for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
+        if (firebeams[i].position.x != INF)
+            firebeams[i].draw(VP);
     }
 }
 
@@ -146,6 +156,30 @@ void tick_elements() {
             gas[i].tick();
     }
 
+    magnet.tick();
+    if (magnet.x > -3.8 && magnet.x < 3.8) {
+        float diffx, diffy;
+        diffx = ball.position.x - magnet.position.x;
+        diffy = ball.position.y - magnet.position.y;
+        if (diffx > 0) {
+            ball.tick(DIR_LEFT);
+        }
+        if (diffx < 0) {
+            ball.tick(DIR_RIGHT);
+        }
+        if (diffy > 0) {
+            ball.tick(DIR_DOWN);
+        }
+        if (diffy < 0) {
+            ball.tick(DIR_UP);
+        }
+    }
+
+    for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
+        if (firebeams[i].position.x != INF)
+            firebeams[i].tick();
+    }
+
     detect_collisions();
 
     // camera_rotation_angle += 1;
@@ -168,7 +202,14 @@ void initGL(GLFWwindow *window, int width, int height) {
     	float rotation = rand() % 180;
     	x = 5 + rand()%50;
         y = -1 + rand() % 5;
-    	firelines.pb(Fireline(x, y, rotation, len, COLOR_FIREBALL));
+    	firelines.pb(Fireline(x, y, rotation, len, COLOR_FIRE));
+    }
+    magnet = Magnet(-3 + rand() % 6, -2 + rand() % 2, 5 + rand() % 20, COLOR_MAGNET);
+    for (int i=0, x, y; i<NO_OF_FIREBEAMS; ++i) {
+        float len = 1.5 + rand() % 2;
+        x = 5 + rand() % 50;
+        y = -1 + rand() % 5;
+        firebeams.pb(Firebeam(x, y, len, COLOR_FIRE));   
     }
 
     // Create and compile our GLSL program from the shaders
@@ -234,7 +275,7 @@ void detect_collisions() {
         }
     }
 
-    // ball and firelines
+    // ball and fire
     for (int i=0; i<NO_OF_FIRELINES; ++i) {
     	float delta = firelines[i].length*cos(firelines[i].rotation*M_PI/180.0);
     	float x1, x2, y1, y2;
@@ -250,7 +291,22 @@ void detect_collisions() {
     	}
     }
 
-    // water balloons and firelines
+    for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
+        float delta = firebeams[i].length*cos(firebeams[i].rotation*M_PI/180.0);
+        float x1, x2, y1, y2;
+        x1 = firebeams[i].position.x;
+        y1 = firebeams[i].position.y;
+        x2 = firebeams[i].position.x + delta;
+        y2 = firebeams[i].position.y + firebeams[i].length*sin(firebeams[i].rotation*M_PI/180.0);
+        bool z = (abs(dist(x1, y1, ball.b.x, ball.b.y) + dist(x2, y2, ball.b.x, ball.b.y) - firebeams[i].length) <= 0.1);
+        if (z) {
+            firebeams[i].position.x = INF;
+            ball.b.x = ball.position.x = -3.0;
+            ball.b.y = ball.position.y = 0;
+        }
+    }
+
+    // water balloons and fire
     for (int i=0; i<NO_OF_WBALLS; ++i) {
         if (waterballs[i].position.x == INF) continue;
         for (int j=0; j<NO_OF_FIRELINES; ++j) {
@@ -264,6 +320,21 @@ void detect_collisions() {
             bool z = (abs(dist(x1, y1, waterballs[i].b.x, waterballs[i].b.y) + dist(x2, y2, waterballs[i].b.x, waterballs[i].b.y) - firelines[j].length) <= 0.01);
             if (z) {
                 firelines[j].position.x = INF;
+                waterballs[i].position.x = INF;
+            }
+        }
+
+        for (int j=0; j<NO_OF_FIREBEAMS; ++j) {
+            if (firebeams[j].position.x == INF) continue;
+            float delta = firebeams[j].length*cos(firebeams[j].rotation*M_PI/180.0);
+            float x1, x2, y1, y2;
+            x1 = firebeams[j].position.x;
+            y1 = firebeams[j].position.y;
+            x2 = firebeams[j].position.x + delta;
+            y2 = firebeams[j].position.y + firebeams[j].length*sin(firebeams[j].rotation*M_PI/180.0);
+            bool z = (abs(dist(x1, y1, waterballs[i].b.x, waterballs[i].b.y) + dist(x2, y2, waterballs[i].b.x, waterballs[i].b.y) - firebeams[j].length) <= 0.01);
+            if (z) {
+                firebeams[j].position.x = INF;
                 waterballs[i].position.x = INF;
             }
         }

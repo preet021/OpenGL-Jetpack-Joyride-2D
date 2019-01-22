@@ -12,6 +12,10 @@ CMakeFiles/jetpack.dir/src/coin.cpp.o: src/main.h
 CMakeFiles/jetpack.dir/src/color.cpp.o: src/color.cpp
 CMakeFiles/jetpack.dir/src/color.cpp.o: src/main.h
 
+CMakeFiles/jetpack.dir/src/firebeam.cpp.o: src/firebeam.cpp
+CMakeFiles/jetpack.dir/src/firebeam.cpp.o: src/firebeam.h
+CMakeFiles/jetpack.dir/src/firebeam.cpp.o: src/main.h
+
 CMakeFiles/jetpack.dir/src/fireline.cpp.o: src/fireline.cpp
 CMakeFiles/jetpack.dir/src/fireline.cpp.o: src/fireline.h
 CMakeFiles/jetpack.dir/src/fireline.cpp.o: src/main.h
@@ -19,9 +23,15 @@ CMakeFiles/jetpack.dir/src/fireline.cpp.o: src/main.h
 CMakeFiles/jetpack.dir/src/input.cpp.o: src/input.cpp
 CMakeFiles/jetpack.dir/src/input.cpp.o: src/main.h
 
+CMakeFiles/jetpack.dir/src/magnet.cpp.o: src/magnet.cpp
+CMakeFiles/jetpack.dir/src/magnet.cpp.o: src/magnet.h
+CMakeFiles/jetpack.dir/src/magnet.cpp.o: src/main.h
+
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/ball.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/coin.h
+CMakeFiles/jetpack.dir/src/main.cpp.o: src/firebeam.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/fireline.h
+CMakeFiles/jetpack.dir/src/main.cpp.o: src/magnet.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/main.cpp
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/main.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/platform.h

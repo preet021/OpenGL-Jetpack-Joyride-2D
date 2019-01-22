@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/jetpack.dir/src/main.cpp.o"
   "CMakeFiles/jetpack.dir/src/nonedit.cpp.o"
   "CMakeFiles/jetpack.dir/src/other_handlers.cpp.o"
+  "CMakeFiles/jetpack.dir/src/firebeam.cpp.o"
+  "CMakeFiles/jetpack.dir/src/magnet.cpp.o"
   "jetpack.pdb"
   "jetpack"
 )

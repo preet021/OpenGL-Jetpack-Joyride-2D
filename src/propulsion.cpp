@@ -7,8 +7,8 @@ Propulsion::Propulsion(float x, float y, color_t color) {
 
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
-    radius = 0.03f;
-    speed_y = -0.1;
+    radius = 0.02f;
+    speed_y = -0.0001;
     this->ctime = 0;
 
     GLfloat vertex_buffer_data[N_TRNG*9];
@@ -47,6 +47,6 @@ void Propulsion::draw(glm::mat4 VP) {
 void Propulsion::tick() {
     this->position.y += speed_y;
     this->ctime += 1;
-    if (this->ctime > 2)
+    if (this->ctime > 3)
         this->position.y = INF;
 }

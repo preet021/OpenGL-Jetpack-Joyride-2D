@@ -32,6 +32,18 @@ main.h
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+firebeam.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.h
+cmath
+-
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.h
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/fireline.cpp
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
@@ -66,6 +78,18 @@ glm/gtc/matrix_transform.hpp
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+magnet.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.h
+cmath
+-
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.h
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.cpp
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
@@ -83,6 +107,10 @@ waterball.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/waterball.h
 propulsion.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/propulsion.h
+magnet.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.h
+firebeam.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.h
 iostream
 -
 
