@@ -4,11 +4,11 @@
 #define INF 999999999
 #include <cmath>
 
-Magnet::Magnet(float x, float y, float far, color_t color) {
+Magnet::Magnet(float x, float y, color_t color, bool dir) {
 
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
-    this->x = far;
+    this->direction = dir;
     count = 2;
     thickness = 0.1;
     length = 0.5;
@@ -56,16 +56,5 @@ void Magnet::draw(glm::mat4 VP) {
 }
 
 void Magnet::tick() {
-    this->x -= 0.01;
-    if (this->x < -3.8)
-    {
-        this->x = INF;
-        if (count > 0)
-        {
-            count--;
-            this->x = 5 + rand() % 25;
-            this->position.y = -2 + rand()%2;
-            this->position.x = -3 + rand() % 6;
-        }
-    }
+
 }

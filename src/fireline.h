@@ -10,8 +10,8 @@ public:
     glm::vec3 position;
     float rotation;
     void draw(glm::mat4 VP);
-    void tick();
-    double length, radius;
+    void tick(bool dir);
+    double length, radius, speed_x;
 private:
     VAO *object;
 };

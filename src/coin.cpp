@@ -13,6 +13,7 @@ Coin::Coin(float x, float y, color_t color) {
     b.y = y;
     b.width = 2*radius;
     b.height = 2*radius;
+    speed_x = 0.03;
 
     GLfloat vertex_buffer_data[N_TRNG*9];
 
@@ -47,10 +48,10 @@ void Coin::draw(glm::mat4 VP) {
     draw3DObject(this->object);
 }
 
-void Coin::tick() {
-    this->position.x -= 0.03;
-    if (this->position.x < -8) {
-        this->position.x = INF;
-    }
+void Coin::tick(bool dir) {
+    if (dir)    
+        this->position.x -= speed_x;
+    else
+        this->position.x += speed_x;
     this->b.x = this->position.x;
 }

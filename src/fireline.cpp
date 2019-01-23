@@ -10,6 +10,7 @@ Fireline::Fireline(float x, float y, float rot, float len, color_t color) {
     this->rotation = rot;
     radius = 0.1f;
     length = len;
+    speed_x = 0.03;
 
     GLfloat vertex_buffer_data[2*9*N_TRNG + 18];
 
@@ -78,9 +79,9 @@ void Fireline::draw(glm::mat4 VP) {
         draw3DObject(this->object);
 }
 
-void Fireline::tick() {
-    this->position.x -= 0.03;
-    if (this->position.x < -8) {
-        this->position.x = INF;
-    }
+void Fireline::tick(bool dir) {
+    if (dir)
+        this->position.x -= speed_x;
+    else
+        this->position.x += speed_x;
 }

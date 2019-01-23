@@ -5,16 +5,16 @@ Ball::Ball(float x, float y, color_t color) {
 	
 	this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
-    acceleration = 1.0/200;
-    speed_x = 0.03;
-    speed_y_ascend = 0.1;
-    speed_y_descend = 0.03;
-    height = 0.4f;
-    width = 0.4f;
-    b.x = x;
-    b.y = y;
-    b.width = width;
-    b.height = height;
+    this->acceleration = 1.0/200;
+    this->speed_x = 0.0f;
+    this->speed_y_ascend = 0.1;
+    this->speed_y_descend = 0.03;
+    this->height = 0.4f;
+    this->width = 0.4f;
+    this->b.x = x;
+    this->b.y = y;
+    this->b.width = width;
+    this->b.height = height;
 
 	GLfloat vertex_buffer_data[] = {
 		0.0f, 0.0f, 0.0f,
@@ -51,33 +51,33 @@ void Ball::draw(glm::mat4 VP) {
 
 void Ball::tick(direction_t dir) {
     if (dir == DIR_DOWN) {
-        speed_y_ascend = 0.1;
+        this->speed_y_ascend = 0.1;
         if (this->position.y > -1.8) {
-            speed_y_descend += acceleration;
-            this->position.y -= speed_y_descend;
-            if (this->position.y < -1.8) this->position.y = -1.8;
-        }
-        else speed_y_descend = 0.03, speed_y_ascend = 0.1;
-        this->b.y = this->position.y;
-    }
-    else if (dir == DIR_RIGHT) {
-        if (this->position.x < 4) {
+            this->speed_y_descend += this->acceleration;
+            this->position.y -= this->speed_y_descend;
             this->position.x += this->speed_x;
         }
-        this->b.x = this->position.x;
+        else this->speed_y_descend = 0.03, this->speed_y_ascend = 0.1, this->speed_x = 0;
+    }
+    else if (dir == DIR_RIGHT) {
+        this->speed_x = 0.04;
+        this->position.x += this->speed_x;
     }
     else if (dir == DIR_LEFT) {
-        if (this->position.x > -3.6) {
-            this->position.x -= this->speed_x;
-        }
-        this->b.x = this->position.x;
+        this->speed_x = -0.04;
+        this->position.x += this->speed_x;
     }
     else if (dir == DIR_UP) {
-        speed_y_descend = 0.03;
+        this->speed_y_descend = 0.03;
         if (this->position.y < 3.8) {
-            speed_y_ascend += acceleration;
+            this->speed_y_ascend += this->acceleration;
             this->position.y += this->speed_y_ascend;
         }
-        this->b.y = this->position.y;
     }
+    if (this->position.y < -1.8) this->position.y = -1.8;
+    if (this->position.x < -3.8) this->position.x = -3.8;
+    if (this->position.x > 3.8) this->position.x = 3.8;
+    if (abs(this->position.y + 1.8) <= 0.001) this->speed_x = 0;
+    this->b.x = this->position.x;
+    this->b.y = this->position.y;
 }

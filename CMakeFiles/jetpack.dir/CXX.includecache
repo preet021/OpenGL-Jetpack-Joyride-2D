@@ -111,6 +111,8 @@ magnet.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.h
 firebeam.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.h
+ring.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
 iostream
 -
 
@@ -195,6 +197,16 @@ propulsion.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/propulsion.h
 
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/propulsion.h
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+ring.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 

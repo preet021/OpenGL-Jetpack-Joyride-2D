@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/other_handlers.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/other_handlers.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/platform.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/platform.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/propulsion.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/propulsion.cpp.o"
+  "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/ring.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/timer.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/timer.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/waterball.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/waterball.cpp.o"
   )

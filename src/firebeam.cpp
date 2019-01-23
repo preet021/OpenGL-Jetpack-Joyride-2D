@@ -4,7 +4,7 @@
 #define INF 999999999
 #include <cmath>
 
-Firebeam::Firebeam(float x, float y, float len, color_t color) {
+Firebeam::Firebeam(float x, float y, float len, color_t color, bool t) {
 
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
@@ -13,7 +13,7 @@ Firebeam::Firebeam(float x, float y, float len, color_t color) {
     radius = 0.1f;
     length = len;
 
-    GLfloat vertex_buffer_data[2*9*N_TRNG + 18];
+    GLfloat vertex_buffer_data[2*9*N_TRNG + 18], vertex_buffer_color[2*9*N_TRNG + 18];
 
     for (int i=0; i<9*N_TRNG; i+=9) {
 
@@ -65,7 +65,7 @@ Firebeam::Firebeam(float x, float y, float len, color_t color) {
     vertex_buffer_data[18*N_TRNG+15] = length;
     vertex_buffer_data[18*N_TRNG+16] = -radius/2.0;
 
-    this->object = create3DObject(GL_TRIANGLES, 2*N_TRNG*3 + 6, vertex_buffer_data, color, GL_FILL);
+    this->object = create3DObject(GL_TRIANGLES, 2*N_TRNG*3 + 6, vertex_buffer_data, vertex_buffer_color, GL_FILL);
 }
 
 void Firebeam::draw(glm::mat4 VP) {
@@ -80,12 +80,8 @@ void Firebeam::draw(glm::mat4 VP) {
         draw3DObject(this->object);
 }
 
-void Firebeam::tick() {
-    this->position.x -= speed_x;
-    if (this->position.x < -8) {
-        this->position.x = INF;
-    }
-    this->position.y += speed_y;
-    if (this->position.y > 3.8 || this->position.y < -1.8)
-        speed_y *= -1;
+void Firebeam::tick(bool dir) {
+    if (dir)
+        this->position.x -= speed_x;
+    else this->position.x += speed_x;
 }

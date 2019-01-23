@@ -8,6 +8,7 @@
 #include "propulsion.h"
 #include "magnet.h"
 #include "firebeam.h"
+#include "ring.h"
 #include <iostream>
 #define INF 999999999
 #define pb push_back
@@ -26,16 +27,17 @@ float dist(float a, float b, float c, float d);
 
 Ball ball;
 Platform platform;
-Magnet magnet;
+vector <Magnet> magnets;
 vector <Firebeam> firebeams;
 vector <Coin> coins;
 vector <Fireline> firelines;
 vector <Waterball> waterballs;
 vector <Propulsion> gas;
+Ring ring;
 bounding_box_t b;
 color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52};
 
-int NO_OF_FIRELINES = 10, NO_OF_COINS = 20, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 3;
+int NO_OF_FIRELINES = 10, NO_OF_COINS = 15, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 8, NO_OF_MAGNETS = 2;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
 float camera_rotation_angle = 0;
 
@@ -74,29 +76,84 @@ void draw() {
 
     // Scene render
     ball.draw(VP);
+
     platform.draw(VP);
+    
     for (int i=0; i<NO_OF_COINS; ++i) {
         if (coins[i].position.x != INF)
             coins[i].draw(VP);
     }
+    
     for (int i=0; i<NO_OF_FIRELINES; ++i) {
         if (firelines[i].position.x != INF)
             firelines[i].draw(VP);
     }
+    
     for (int i=0; i<NO_OF_WBALLS; ++i) {
         if (waterballs[i].position.x != INF)
             waterballs[i].draw(VP);
     }
+    
     for (int i=0; i<NO_OF_GAS; ++i) {
         if (gas[i].position.y != INF)
             gas[i].draw(VP);
     }
-    if (magnet.x > -3.8 && magnet.x < 3.8)
-        magnet.draw(VP);
+    
+    for (int i=0; i<NO_OF_MAGNETS; ++i) {
+        if (magnets[i].position.x > -3.8 && magnets[i].position.x < 3.8)
+            magnets[i].draw(VP);
+    }
+    
     for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
         if (firebeams[i].position.x != INF)
             firebeams[i].draw(VP);
     }
+
+    ring.draw(VP);
+
+}
+
+void tick_elements(bool dir) {
+
+    for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
+        if (firebeams[i].position.x != INF)
+            firebeams[i].tick(dir);
+    }
+    
+    for (int i=0; i<NO_OF_COINS; ++i) {
+        if (coins[i].position.x != INF)
+            coins[i].tick(dir);
+    }
+
+    for (int i=0; i<NO_OF_FIRELINES; ++i) {
+        if (firelines[i].position.x != INF)
+            firelines[i].tick(dir);
+    }
+
+    ring.tick(dir);
+
+    for (int i=0; i<NO_OF_MAGNETS; ++i) {
+        magnets[i].tick();
+        if (magnets[i].position.x > -3.8 && magnets[i].position.x < 3.8) {
+            float diffx, diffy;
+            diffx = ball.position.x - magnets[i].position.x;
+            diffy = ball.position.y - magnets[i].position.y;
+            if (diffx > 0) {
+                ball.tick(DIR_LEFT);
+            }
+            if (diffx < 0) {
+                ball.tick(DIR_RIGHT);
+            }
+            if (diffy > 0) {
+                ball.tick(DIR_DOWN);
+            }
+            if (diffy < 0) {
+                ball.tick(DIR_UP);
+            }
+        }
+    }
+
+    // camera_rotation_angle += 1;
 }
 
 void tick_input(GLFWwindow *window) {
@@ -104,25 +161,45 @@ void tick_input(GLFWwindow *window) {
     int right = glfwGetKey(window, GLFW_KEY_D);
     int up = glfwGetKey(window, GLFW_KEY_W);
     int space = glfwGetKey(window, GLFW_KEY_SPACE);
+    
     if (left) {
-        ball.tick(DIR_LEFT);
+        if (ball.position.x <= -3.78)
+            tick_elements(0);
+        else ball.tick(DIR_LEFT);
     }
+
     if (right) {
-        ball.tick(DIR_RIGHT);
+        if (ball.position.x >= 3.78)
+        {
+            ball.position.x = 0;
+            for (int i=0; i<60; ++i)
+                tick_elements(1);
+        }
+        else
+        {
+            ball.tick(DIR_RIGHT);
+            if (ball.position.x > 0)
+                tick_elements(1);
+        }
     }
+    
     if (up) {
         float x, y, delta;
+        
         y = ball.position.y - ball.b.height/2.0;
         delta = -25.0 + rand() % 50;
         x = ball.position.x + ball.b.width*(delta/100.0);
         gas.pb(Propulsion(x, y, COLOR_PROPULSION));
+        
         y = ball.position.y - ball.b.height/2.0;
         delta = -25.0 + rand() % 50;
         x = ball.position.x + ball.b.width*(delta/100.0);
         gas.pb(Propulsion(x, y, COLOR_PROPULSION));
+        
         NO_OF_GAS += 2;
         ball.tick(DIR_UP);
     }
+    
     if (space) {
         if (delay >= 40) {
             waterballs.pb(Waterball(ball.position.x, ball.position.y, COLOR_WATER));
@@ -133,84 +210,43 @@ void tick_input(GLFWwindow *window) {
     ++delay;
 }
 
-void tick_elements() {
-    ball.tick(DIR_DOWN);
-
-    for (int i=0; i<NO_OF_COINS; ++i) {
-        if (coins[i].position.x != INF)
-            coins[i].tick();
-    }
-
-    for (int i=0; i<NO_OF_FIRELINES; ++i) {
-        if (firelines[i].position.x != INF)
-            firelines[i].tick();
-    }
-
-    for (int i=0; i<NO_OF_WBALLS; ++i) {
-        if (waterballs[i].position.x != INF) 
-            waterballs[i].tick();
-    }
-
-    for (int i=0; i<NO_OF_GAS; ++i) {
-        if (gas[i].position.y != INF)
-            gas[i].tick();
-    }
-
-    magnet.tick();
-    if (magnet.x > -3.8 && magnet.x < 3.8) {
-        float diffx, diffy;
-        diffx = ball.position.x - magnet.position.x;
-        diffy = ball.position.y - magnet.position.y;
-        if (diffx > 0) {
-            ball.tick(DIR_LEFT);
-        }
-        if (diffx < 0) {
-            ball.tick(DIR_RIGHT);
-        }
-        if (diffy > 0) {
-            ball.tick(DIR_DOWN);
-        }
-        if (diffy < 0) {
-            ball.tick(DIR_UP);
-        }
-    }
-
-    for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
-        if (firebeams[i].position.x != INF)
-            firebeams[i].tick();
-    }
-
-    detect_collisions();
-
-    // camera_rotation_angle += 1;
-}
-
 /* Initialize the OpenGL rendering properties */
 /* Add all the models to be created here */
 void initGL(GLFWwindow *window, int width, int height) {
     /* Objects should be created before any other gl function and shaders */
     // Create the models
-    ball = Ball(-3, -1.5, COLOR_BALL);
+    ball = Ball(0, -1.5, COLOR_BALL);
+
     platform = Platform(0, -2, COLOR_PLATFORM);
+    
     for (int i=0, x, y; i<NO_OF_COINS; ++i) {
         x = 5 + rand() % 50;
         y = -1 + rand() % 5;
         coins.pb(Coin(x, y, COLOR_COIN));
     }
+    
     for (int i=0, x, y; i<NO_OF_FIRELINES; ++i) {
-    	float len = 1.5 + rand() % 2;
-    	float rotation = rand() % 180;
-    	x = 5 + rand()%50;
+        float len = 1.5 + rand() % 2;
+        float rotation = rand() % 180;
+        x = 5 + rand()%50;
         y = -1 + rand() % 5;
-    	firelines.pb(Fireline(x, y, rotation, len, COLOR_FIRE));
+        firelines.pb(Fireline(x, y, rotation, len, COLOR_FIRE));
     }
-    magnet = Magnet(-3 + rand() % 6, -2 + rand() % 2, 5 + rand() % 20, COLOR_MAGNET);
-    for (int i=0, x, y; i<NO_OF_FIREBEAMS; ++i) {
+    
+    for (int i=0; i<NO_OF_MAGNETS; ++i) {
+        magnets.pb(Magnet(rand() % 50, -2 + rand() % 5, COLOR_MAGNET, rand() % 2));
+    }
+    
+    for (int i=0, x, y; i<NO_OF_FIREBEAMS; i+=2) {
         float len = 1.5 + rand() % 2;
         x = 5 + rand() % 50;
-        y = -1 + rand() % 5;
-        firebeams.pb(Firebeam(x, y, len, COLOR_FIRE));   
+        y = -1;
+        firebeams.pb(Firebeam(x, y, len, COLOR_FIRE, 0));
+        firebeams.pb(Firebeam(x, y + 1, len, COLOR_FIRE, 1));   
     }
+
+    ring = Ring(5 + rand() % 50, -1 + rand() % 5, COLOR_WATER);
+    cout << ring.position.x << " " << ring.position.y << endl;
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
@@ -252,10 +288,31 @@ int main(int argc, char **argv) {
             draw();
             // Swap Frame Buffer in double buffering
             glfwSwapBuffers(window);
+            reset_screen();
 
-            tick_elements();
+            detect_collisions();
+
+            ball.tick(DIR_DOWN);
+            
+            for (int i=0; i<NO_OF_WBALLS; ++i) {
+                if (waterballs[i].position.x != INF) 
+                    waterballs[i].tick();
+            }
+
+            for (int i=0; i<NO_OF_GAS; ++i) {
+                if (gas[i].position.y != INF)
+                    gas[i].tick();
+            }
+
+            for (int i=0; i<NO_OF_FIREBEAMS; i++) {
+                firebeams[i].position.y += firebeams[i].speed_y;
+                if ((i & 1) && (firebeams[i].position.y > 3.5 || firebeams[i].position.y < 0))
+                    firebeams[i].speed_y *= -1;
+                if (!(i & 1) && (firebeams[i].position.y > 2.5 || firebeams[i].position.y < -1.5))
+                    firebeams[i].speed_y *= -1;
+            }
+
             tick_input(window);
-
         }
 
         // Poll for Keyboard and mouse events

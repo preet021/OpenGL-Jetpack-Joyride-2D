@@ -13,6 +13,8 @@
 
 #include "main.h"
 
+#define min(a, b) ((a<=b)?a:b)
+
 bool   cannon_keyboard_input = true;
 bool   drag_pan = false, old_cki;
 double drag_oldx = -1, drag_oldy = -1;
@@ -84,4 +86,8 @@ void mouseButton(GLFWwindow *window, int button, int action, int mods) {
 
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
     // Do something
+    if (yoffset == 1)
+        screen_zoom += 0.01;
+    if (yoffset == -1)
+        screen_zoom = max((double)0.0, screen_zoom - 0.01);
 }

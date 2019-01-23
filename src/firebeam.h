@@ -6,12 +6,13 @@
 class Firebeam {
 public:
     Firebeam() {}
-    Firebeam(float x, float y, float length, color_t color);
+    Firebeam(float x, float y, float length, color_t color, bool t);
     glm::vec3 position;
     float rotation;
     void draw(glm::mat4 VP);
-    void tick();
+    void tick(bool dir);
     double length, radius, speed_y, speed_x;
+    bool t;
 private:
     VAO *object;
 };
