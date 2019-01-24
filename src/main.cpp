@@ -9,6 +9,7 @@
 #include "magnet.h"
 #include "firebeam.h"
 #include "ring.h"
+#include "boomerang.h"
 #include <iostream>
 #define INF 999999999
 #define pb push_back
@@ -27,19 +28,21 @@ float dist(float a, float b, float c, float d);
 
 Ball ball;
 Platform platform;
-vector <Magnet> magnets;
+Boomerang boom;
+Magnet magnet;
 vector <Firebeam> firebeams;
 vector <Coin> coins;
 vector <Fireline> firelines;
 vector <Waterball> waterballs;
 vector <Propulsion> gas;
-Ring ring;
+vector<Ring> rings;
 bounding_box_t b;
-color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52};
+color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52}, COLOR_RING = {220, 239, 157}, COLOR_BOOM = {243, 46 ,46};
 
-int NO_OF_FIRELINES = 10, NO_OF_COINS = 15, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 8, NO_OF_MAGNETS = 2;
-float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0;
-float camera_rotation_angle = 0;
+int NO_OF_FIRELINES = 5, NO_OF_COINS = 10, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 4, NO_OF_MAGNETS = 2, NO_OF_RINGS = 2;
+float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0, camera_rotation_angle = 0, cx, cy, r;
+bool onRing = 0;
+int ii = 0, ind;
 
 Timer t60(1.0 / 60);
 
@@ -99,17 +102,20 @@ void draw() {
             gas[i].draw(VP);
     }
     
-    for (int i=0; i<NO_OF_MAGNETS; ++i) {
-        if (magnets[i].position.x > -3.8 && magnets[i].position.x < 3.8)
-            magnets[i].draw(VP);
-    }
+    if (magnet.present)
+        magnet.draw(VP);
     
     for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
         if (firebeams[i].position.x != INF)
             firebeams[i].draw(VP);
     }
 
-    ring.draw(VP);
+    for (int i=0; i<NO_OF_RINGS; ++i) {
+        rings[i].draw(VP);
+    }
+
+    if (boom.present)
+        boom.draw(VP);
 
 }
 
@@ -130,38 +136,23 @@ void tick_elements(bool dir) {
             firelines[i].tick(dir);
     }
 
-    ring.tick(dir);
-
-    for (int i=0; i<NO_OF_MAGNETS; ++i) {
-        magnets[i].tick();
-        if (magnets[i].position.x > -3.8 && magnets[i].position.x < 3.8) {
-            float diffx, diffy;
-            diffx = ball.position.x - magnets[i].position.x;
-            diffy = ball.position.y - magnets[i].position.y;
-            if (diffx > 0) {
-                ball.tick(DIR_LEFT);
-            }
-            if (diffx < 0) {
-                ball.tick(DIR_RIGHT);
-            }
-            if (diffy > 0) {
-                ball.tick(DIR_DOWN);
-            }
-            if (diffy < 0) {
-                ball.tick(DIR_UP);
-            }
-        }
+    for (int i=0; i<NO_OF_RINGS; ++i) {
+        rings[i].tick(dir);
     }
 
     // camera_rotation_angle += 1;
 }
 
 void tick_input(GLFWwindow *window) {
+
     int left  = glfwGetKey(window, GLFW_KEY_A);
     int right = glfwGetKey(window, GLFW_KEY_D);
     int up = glfwGetKey(window, GLFW_KEY_W);
     int space = glfwGetKey(window, GLFW_KEY_SPACE);
-    
+
+    if (!onRing)
+        ball.tick(DIR_DOWN);
+        
     if (left) {
         if (ball.position.x <= -3.78)
             tick_elements(0);
@@ -207,7 +198,36 @@ void tick_input(GLFWwindow *window) {
             delay = 0;
         }
     }
+    
     ++delay;
+    
+    if (onRing)
+        ball.position.y = rings[ind].position.y + sqrt(abs(rings[ind].radius*rings[ind].radius - (ball.position.x-rings[ind].position.x)*(ball.position.x-rings[ind].position.x)));
+    
+    if (boom.present)
+        boom.tick();
+    
+    if (magnet.present) {
+        if (dir) {
+            if (ball.position.x > magnet.position.x) {
+                ball.position.x -= 0.02f;
+                if (ball.position.x < magnet.position.x)
+                    ball.position.x = magnet.position.x;
+            }
+        } else {
+            if (ball.position.x < magnet.position.x) {
+                ball.position.x += 0.02f;
+                if (ball.position.x > magnet.position.x)
+                    ball.position.x = magnet.position.x;
+            }
+        }
+        if (ball.position.y > magnet.position.y) {
+            ball.position.y = (ball.position.y - 0.03 >= magnet.position.y) ? (ball.position.y - 0.03) : (magnet.position.y);
+        } else {
+            ball.position.y = (ball.position.y + 0.03 <= magnet.position.y) ? (ball.position.y + 0.03) : (magnet.position.y);
+        }
+        magnet.tick();
+    }
 }
 
 /* Initialize the OpenGL rendering properties */
@@ -233,20 +253,21 @@ void initGL(GLFWwindow *window, int width, int height) {
         firelines.pb(Fireline(x, y, rotation, len, COLOR_FIRE));
     }
     
-    for (int i=0; i<NO_OF_MAGNETS; ++i) {
-        magnets.pb(Magnet(rand() % 50, -2 + rand() % 5, COLOR_MAGNET, rand() % 2));
-    }
+    magnet = Magnet(COLOR_MAGNET);
     
     for (int i=0, x, y; i<NO_OF_FIREBEAMS; i+=2) {
         float len = 1.5 + rand() % 2;
         x = 5 + rand() % 50;
         y = -1;
         firebeams.pb(Firebeam(x, y, len, COLOR_FIRE, 0));
-        firebeams.pb(Firebeam(x, y + 1, len, COLOR_FIRE, 1));   
+        firebeams.pb(Firebeam(x, y + 1, len, COLOR_FIRE, 1));
     }
 
-    ring = Ring(5 + rand() % 50, -1 + rand() % 5, COLOR_WATER);
-    cout << ring.position.x << " " << ring.position.y << endl;
+    for (int i=0; i<NO_OF_RINGS; ++i) {
+        rings.pb(Ring(5 + rand() % 50, -1 + rand() % 3, COLOR_RING));
+    }
+
+    boom = Boomerang(COLOR_BOOM);
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
@@ -291,8 +312,6 @@ int main(int argc, char **argv) {
             reset_screen();
 
             detect_collisions();
-
-            ball.tick(DIR_DOWN);
             
             for (int i=0; i<NO_OF_WBALLS; ++i) {
                 if (waterballs[i].position.x != INF) 
@@ -312,6 +331,19 @@ int main(int argc, char **argv) {
                     firebeams[i].speed_y *= -1;
             }
 
+            if ((rand() % 1007 == 53) && !boom.present) {
+                boom.present = true;
+                boom.position.y = 2.5;
+                boom.position.x = boom.cx + ((boom.position.y - boom.cy)*(boom.position.y - boom.cy));
+            }
+
+            if ((rand() % 2007 == 97) && !magnet.present) {
+                magnet.present = true;
+                magnet.position.x = -3 + rand() % 6;
+                magnet.position.y = -1.5 + rand() % 5;
+                magnet.ctime = 0;
+            }
+            
             tick_input(window);
         }
 
@@ -334,18 +366,18 @@ void detect_collisions() {
 
     // ball and fire
     for (int i=0; i<NO_OF_FIRELINES; ++i) {
-    	float delta = firelines[i].length*cos(firelines[i].rotation*M_PI/180.0);
-    	float x1, x2, y1, y2;
-    	x1 = firelines[i].position.x;
-    	y1 = firelines[i].position.y;
-    	x2 = firelines[i].position.x + delta;
-    	y2 = firelines[i].position.y + firelines[i].length*sin(firelines[i].rotation*M_PI/180.0);
-    	bool z = (abs(dist(x1, y1, ball.b.x, ball.b.y) + dist(x2, y2, ball.b.x, ball.b.y) - firelines[i].length) <= 0.1);
-    	if (z) {
-    		firelines[i].position.x = INF;
-    		ball.b.x = ball.position.x = -3.0;
-    		ball.b.y = ball.position.y = 0;
-    	}
+        float delta = firelines[i].length*cos(firelines[i].rotation*M_PI/180.0);
+        float x1, x2, y1, y2;
+        x1 = firelines[i].position.x;
+        y1 = firelines[i].position.y;
+        x2 = firelines[i].position.x + delta;
+        y2 = firelines[i].position.y + firelines[i].length*sin(firelines[i].rotation*M_PI/180.0);
+        bool z = (abs(dist(x1, y1, ball.b.x, ball.b.y) + dist(x2, y2, ball.b.x, ball.b.y) - firelines[i].length) <= 0.1);
+        if (z) {
+            firelines[i].position.x = INF;
+            ball.b.x = ball.position.x = -3.0;
+            ball.b.y = ball.position.y = 0;
+        }
     }
 
     for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
@@ -395,6 +427,30 @@ void detect_collisions() {
                 waterballs[i].position.x = INF;
             }
         }
+    }
+
+    // check if ball is on any ring
+    for (int i=0; i<NO_OF_RINGS; ++i) {
+        bool a, b;
+        cx = rings[i].position.x, cy = rings[i].position.y, r = rings[i].radius + rings[i].thickness / 2.0;
+        a = (abs(dist(ball.position.x, ball.position.y, rings[i].position.x, rings[i].position.y) - rings[i].radius - rings[i].thickness) <= 0.1);
+        b = ((ball.position.y >= rings[i].position.y) && (ball.position.y <= rings[i].position.y + rings[i].radius + rings[i].thickness / 2.0));
+        if (a && b) {
+            ball.position.y = cy + sqrt(abs(r*r - (ball.position.x-cx)*(ball.position.x-cx)));
+            onRing = 1; ind=i;
+            cx = rings[i].position.x, cy = rings[i].position.y, r = rings[i].radius + rings[i].thickness / 2.0;
+        }
+    }
+
+    // chech if ball has left the ring
+    if (onRing && (ball.position.x <= rings[ind].position.x - rings[ind].radius - rings[ind].thickness || ball.position.x >= rings[ind].position.x + rings[ind].radius + rings[ind].thickness))
+        onRing = 0;
+
+    // ball with boomerang
+    if ((2 * abs(ball.b.x - boom.b.x) < (ball.b.width + boom.b.width)) 
+        && (2 * abs(ball.b.y - boom.b.y) < (ball.b.height + boom.b.height))) {
+        ball.position.x = -3;
+        ball.position.y = 0;
     }
 
 }

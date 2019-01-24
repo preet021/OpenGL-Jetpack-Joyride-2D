@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/jetpack.dir/src/waterball.cpp.o"
   "CMakeFiles/jetpack.dir/src/fireline.cpp.o"
+  "CMakeFiles/jetpack.dir/src/boomerang.cpp.o"
   "CMakeFiles/jetpack.dir/src/input.cpp.o"
   "CMakeFiles/jetpack.dir/src/ball.cpp.o"
   "CMakeFiles/jetpack.dir/src/color.cpp.o"

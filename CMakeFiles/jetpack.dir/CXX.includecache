@@ -16,6 +16,16 @@ ball.h
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+boomerang.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.cpp
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
@@ -113,6 +123,8 @@ firebeam.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.h
 ring.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
+boomerang.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
 iostream
 -
 

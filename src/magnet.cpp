@@ -4,15 +4,15 @@
 #define INF 999999999
 #include <cmath>
 
-Magnet::Magnet(float x, float y, color_t color, bool dir) {
+Magnet::Magnet(color_t color) {
 
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
-    this->direction = dir;
-    count = 2;
-    thickness = 0.1;
-    length = 0.5;
-    width = 0.4;
+    this->present = false;
+    this->thickness = 0.1;
+    this->length = 0.5;
+    this->width = 0.4;
+    this->ctime = 0;
 
     GLfloat vertex_buffer_data[] = {
         0.0f, 0.0f, 0.0f,
@@ -55,6 +55,8 @@ void Magnet::draw(glm::mat4 VP) {
         draw3DObject(this->object);
 }
 
-void Magnet::tick() {
-
+void Magnet::tick () {
+    this->ctime += 1;
+    if (this->tick > 40)
+        this->present = 0;
 }

@@ -60,11 +60,11 @@ void Ball::tick(direction_t dir) {
         else this->speed_y_descend = 0.03, this->speed_y_ascend = 0.1, this->speed_x = 0;
     }
     else if (dir == DIR_RIGHT) {
-        this->speed_x = 0.04;
+        this->speed_x = 0.02;
         this->position.x += this->speed_x;
     }
     else if (dir == DIR_LEFT) {
-        this->speed_x = -0.04;
+        this->speed_x = -0.02;
         this->position.x += this->speed_x;
     }
     else if (dir == DIR_UP) {

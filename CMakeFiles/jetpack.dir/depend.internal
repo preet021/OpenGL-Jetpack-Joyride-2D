@@ -5,6 +5,10 @@ CMakeFiles/jetpack.dir/src/ball.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ball.cpp
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ball.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 CMakeFiles/jetpack.dir/src/coin.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.cpp
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.h
@@ -29,6 +33,7 @@ CMakeFiles/jetpack.dir/src/magnet.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 CMakeFiles/jetpack.dir/src/main.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ball.h
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/fireline.h

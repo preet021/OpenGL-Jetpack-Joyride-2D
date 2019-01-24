@@ -105,9 +105,33 @@ CMakeFiles/jetpack.dir/src/fireline.cpp.o.provides: CMakeFiles/jetpack.dir/src/f
 CMakeFiles/jetpack.dir/src/fireline.cpp.o.provides.build: CMakeFiles/jetpack.dir/src/fireline.cpp.o
 
 
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o: CMakeFiles/jetpack.dir/flags.make
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o: src/boomerang.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/jetpack.dir/src/boomerang.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/boomerang.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp
+
+CMakeFiles/jetpack.dir/src/boomerang.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/jetpack.dir/src/boomerang.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp > CMakeFiles/jetpack.dir/src/boomerang.cpp.i
+
+CMakeFiles/jetpack.dir/src/boomerang.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/jetpack.dir/src/boomerang.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp -o CMakeFiles/jetpack.dir/src/boomerang.cpp.s
+
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o.requires:
+
+.PHONY : CMakeFiles/jetpack.dir/src/boomerang.cpp.o.requires
+
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o.provides: CMakeFiles/jetpack.dir/src/boomerang.cpp.o.requires
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/boomerang.cpp.o.provides.build
+.PHONY : CMakeFiles/jetpack.dir/src/boomerang.cpp.o.provides
+
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o.provides.build: CMakeFiles/jetpack.dir/src/boomerang.cpp.o
+
+
 CMakeFiles/jetpack.dir/src/input.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/input.cpp.o: src/input.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/jetpack.dir/src/input.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/jetpack.dir/src/input.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/input.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/input.cpp
 
 CMakeFiles/jetpack.dir/src/input.cpp.i: cmake_force
@@ -131,7 +155,7 @@ CMakeFiles/jetpack.dir/src/input.cpp.o.provides.build: CMakeFiles/jetpack.dir/sr
 
 CMakeFiles/jetpack.dir/src/ball.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/ball.cpp.o: src/ball.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/jetpack.dir/src/ball.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/jetpack.dir/src/ball.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/ball.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ball.cpp
 
 CMakeFiles/jetpack.dir/src/ball.cpp.i: cmake_force
@@ -155,7 +179,7 @@ CMakeFiles/jetpack.dir/src/ball.cpp.o.provides.build: CMakeFiles/jetpack.dir/src
 
 CMakeFiles/jetpack.dir/src/color.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/color.cpp.o: src/color.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/jetpack.dir/src/color.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/jetpack.dir/src/color.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/color.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/color.cpp
 
 CMakeFiles/jetpack.dir/src/color.cpp.i: cmake_force
@@ -179,7 +203,7 @@ CMakeFiles/jetpack.dir/src/color.cpp.o.provides.build: CMakeFiles/jetpack.dir/sr
 
 CMakeFiles/jetpack.dir/src/coin.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/coin.cpp.o: src/coin.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/jetpack.dir/src/coin.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/jetpack.dir/src/coin.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/coin.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.cpp
 
 CMakeFiles/jetpack.dir/src/coin.cpp.i: cmake_force
@@ -203,7 +227,7 @@ CMakeFiles/jetpack.dir/src/coin.cpp.o.provides.build: CMakeFiles/jetpack.dir/src
 
 CMakeFiles/jetpack.dir/src/timer.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/timer.cpp.o: src/timer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/jetpack.dir/src/timer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/jetpack.dir/src/timer.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/timer.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/timer.cpp
 
 CMakeFiles/jetpack.dir/src/timer.cpp.i: cmake_force
@@ -227,7 +251,7 @@ CMakeFiles/jetpack.dir/src/timer.cpp.o.provides.build: CMakeFiles/jetpack.dir/sr
 
 CMakeFiles/jetpack.dir/src/ring.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/ring.cpp.o: src/ring.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/jetpack.dir/src/ring.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/jetpack.dir/src/ring.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/ring.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.cpp
 
 CMakeFiles/jetpack.dir/src/ring.cpp.i: cmake_force
@@ -251,7 +275,7 @@ CMakeFiles/jetpack.dir/src/ring.cpp.o.provides.build: CMakeFiles/jetpack.dir/src
 
 CMakeFiles/jetpack.dir/src/propulsion.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/propulsion.cpp.o: src/propulsion.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/jetpack.dir/src/propulsion.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/jetpack.dir/src/propulsion.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/propulsion.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/propulsion.cpp
 
 CMakeFiles/jetpack.dir/src/propulsion.cpp.i: cmake_force
@@ -275,7 +299,7 @@ CMakeFiles/jetpack.dir/src/propulsion.cpp.o.provides.build: CMakeFiles/jetpack.d
 
 CMakeFiles/jetpack.dir/src/platform.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/platform.cpp.o: src/platform.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/jetpack.dir/src/platform.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/jetpack.dir/src/platform.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/platform.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/platform.cpp
 
 CMakeFiles/jetpack.dir/src/platform.cpp.i: cmake_force
@@ -299,7 +323,7 @@ CMakeFiles/jetpack.dir/src/platform.cpp.o.provides.build: CMakeFiles/jetpack.dir
 
 CMakeFiles/jetpack.dir/src/main.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/jetpack.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/jetpack.dir/src/main.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/main.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.cpp
 
 CMakeFiles/jetpack.dir/src/main.cpp.i: cmake_force
@@ -323,7 +347,7 @@ CMakeFiles/jetpack.dir/src/main.cpp.o.provides.build: CMakeFiles/jetpack.dir/src
 
 CMakeFiles/jetpack.dir/src/nonedit.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/nonedit.cpp.o: src/nonedit.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/jetpack.dir/src/nonedit.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/jetpack.dir/src/nonedit.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/nonedit.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/nonedit.cpp
 
 CMakeFiles/jetpack.dir/src/nonedit.cpp.i: cmake_force
@@ -347,7 +371,7 @@ CMakeFiles/jetpack.dir/src/nonedit.cpp.o.provides.build: CMakeFiles/jetpack.dir/
 
 CMakeFiles/jetpack.dir/src/other_handlers.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/other_handlers.cpp.o: src/other_handlers.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/jetpack.dir/src/other_handlers.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/jetpack.dir/src/other_handlers.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/other_handlers.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/other_handlers.cpp
 
 CMakeFiles/jetpack.dir/src/other_handlers.cpp.i: cmake_force
@@ -371,7 +395,7 @@ CMakeFiles/jetpack.dir/src/other_handlers.cpp.o.provides.build: CMakeFiles/jetpa
 
 CMakeFiles/jetpack.dir/src/firebeam.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/firebeam.cpp.o: src/firebeam.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/jetpack.dir/src/firebeam.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/jetpack.dir/src/firebeam.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/firebeam.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.cpp
 
 CMakeFiles/jetpack.dir/src/firebeam.cpp.i: cmake_force
@@ -395,7 +419,7 @@ CMakeFiles/jetpack.dir/src/firebeam.cpp.o.provides.build: CMakeFiles/jetpack.dir
 
 CMakeFiles/jetpack.dir/src/magnet.cpp.o: CMakeFiles/jetpack.dir/flags.make
 CMakeFiles/jetpack.dir/src/magnet.cpp.o: src/magnet.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/jetpack.dir/src/magnet.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/jetpack.dir/src/magnet.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/jetpack.dir/src/magnet.cpp.o -c /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.cpp
 
 CMakeFiles/jetpack.dir/src/magnet.cpp.i: cmake_force
@@ -421,6 +445,7 @@ CMakeFiles/jetpack.dir/src/magnet.cpp.o.provides.build: CMakeFiles/jetpack.dir/s
 jetpack_OBJECTS = \
 "CMakeFiles/jetpack.dir/src/waterball.cpp.o" \
 "CMakeFiles/jetpack.dir/src/fireline.cpp.o" \
+"CMakeFiles/jetpack.dir/src/boomerang.cpp.o" \
 "CMakeFiles/jetpack.dir/src/input.cpp.o" \
 "CMakeFiles/jetpack.dir/src/ball.cpp.o" \
 "CMakeFiles/jetpack.dir/src/color.cpp.o" \
@@ -440,6 +465,7 @@ jetpack_EXTERNAL_OBJECTS =
 
 jetpack: CMakeFiles/jetpack.dir/src/waterball.cpp.o
 jetpack: CMakeFiles/jetpack.dir/src/fireline.cpp.o
+jetpack: CMakeFiles/jetpack.dir/src/boomerang.cpp.o
 jetpack: CMakeFiles/jetpack.dir/src/input.cpp.o
 jetpack: CMakeFiles/jetpack.dir/src/ball.cpp.o
 jetpack: CMakeFiles/jetpack.dir/src/color.cpp.o
@@ -455,7 +481,7 @@ jetpack: CMakeFiles/jetpack.dir/src/firebeam.cpp.o
 jetpack: CMakeFiles/jetpack.dir/src/magnet.cpp.o
 jetpack: CMakeFiles/jetpack.dir/build.make
 jetpack: CMakeFiles/jetpack.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX executable jetpack"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX executable jetpack"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/jetpack.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -465,6 +491,7 @@ CMakeFiles/jetpack.dir/build: jetpack
 
 CMakeFiles/jetpack.dir/requires: CMakeFiles/jetpack.dir/src/waterball.cpp.o.requires
 CMakeFiles/jetpack.dir/requires: CMakeFiles/jetpack.dir/src/fireline.cpp.o.requires
+CMakeFiles/jetpack.dir/requires: CMakeFiles/jetpack.dir/src/boomerang.cpp.o.requires
 CMakeFiles/jetpack.dir/requires: CMakeFiles/jetpack.dir/src/input.cpp.o.requires
 CMakeFiles/jetpack.dir/requires: CMakeFiles/jetpack.dir/src/ball.cpp.o.requires
 CMakeFiles/jetpack.dir/requires: CMakeFiles/jetpack.dir/src/color.cpp.o.requires

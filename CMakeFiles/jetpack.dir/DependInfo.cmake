@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ball.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/ball.cpp.o"
+  "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/boomerang.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/coin.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/color.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/color.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/firebeam.cpp.o"

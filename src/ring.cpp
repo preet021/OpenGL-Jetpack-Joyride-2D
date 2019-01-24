@@ -6,9 +6,10 @@ Ring::Ring(float x, float y, color_t color) {
 	
 	this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
-    this->radius = 2.0f;
-    this->thickness = 0.1f;
+    this->radius = 1.0f;
+    this->thickness = 0.05f;
     this->speed_x = 0.03f;
+    this->on = false;
 
 	GLfloat vertex_buffer_data[18*N_BLCK];
 

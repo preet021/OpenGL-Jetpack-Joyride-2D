@@ -5,6 +5,10 @@ CMakeFiles/jetpack.dir/src/ball.cpp.o: src/ball.cpp
 CMakeFiles/jetpack.dir/src/ball.cpp.o: src/ball.h
 CMakeFiles/jetpack.dir/src/ball.cpp.o: src/main.h
 
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o: src/boomerang.cpp
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o: src/boomerang.h
+CMakeFiles/jetpack.dir/src/boomerang.cpp.o: src/main.h
+
 CMakeFiles/jetpack.dir/src/coin.cpp.o: src/coin.cpp
 CMakeFiles/jetpack.dir/src/coin.cpp.o: src/coin.h
 CMakeFiles/jetpack.dir/src/coin.cpp.o: src/main.h
@@ -28,6 +32,7 @@ CMakeFiles/jetpack.dir/src/magnet.cpp.o: src/magnet.h
 CMakeFiles/jetpack.dir/src/magnet.cpp.o: src/main.h
 
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/ball.h
+CMakeFiles/jetpack.dir/src/main.cpp.o: src/boomerang.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/coin.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/firebeam.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/fireline.h

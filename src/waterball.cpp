@@ -52,12 +52,6 @@ void Waterball::draw(glm::mat4 VP) {
 void Waterball::tick() {
     this->position.x += speed_x;
     this->position.y += speed_y;
-    if (this->position.x > 4.2) {
-        this->position.x = INF;
-    }
-    if (this->position.y < -2) {
-        this->position.x = INF;
-    }
     speed_y += acceleration;
     this->b.x = this->position.x;
     this->b.y = this->position.y;

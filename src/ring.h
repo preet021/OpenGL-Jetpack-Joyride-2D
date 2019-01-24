@@ -10,6 +10,7 @@ public:
     Ring(float x, float y, color_t color);
     glm::vec3 position;
     float rotation;
+    bool on;
     void draw(glm::mat4 VP);
     void tick(bool dir);
     double thickness, radius, speed_x;

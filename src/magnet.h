@@ -6,14 +6,15 @@
 class Magnet {
 public:
     Magnet() {}
-    Magnet(float x, float y,color_t color, bool dir);
+
+    Magnet(color_t color);
     glm::vec3 position;
     float rotation;
-    int count;
-    void draw(glm::mat4 VP);
+    int direction, ctime;
     void tick();
+    void draw(glm::mat4 VP);
     double thickness, length, width;
-    bool direction;
+    bool present;
 private:
     VAO *object;
 };
