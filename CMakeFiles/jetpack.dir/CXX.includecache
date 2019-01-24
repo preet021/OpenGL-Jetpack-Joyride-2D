@@ -125,6 +125,8 @@ ring.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
 boomerang.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
+score.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.h
 iostream
 -
 
@@ -219,6 +221,16 @@ ring.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
 
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+score.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.h
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 

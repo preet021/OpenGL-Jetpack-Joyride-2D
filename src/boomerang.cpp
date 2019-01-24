@@ -35,7 +35,7 @@ void Boomerang::draw(glm::mat4 VP) {
 
 void Boomerang::tick() {
     // equation of motion: (y - cy)^2 = 4*(x - cx)
-    this->rotation += 0.5;
+    this->rotation += 5;
     this->position.y += this->speed_y;
     this->position.x = this->cx + ((this->position.y - this->cy)*(this->position.y - this->cy));
     if (this->position.x > 5)

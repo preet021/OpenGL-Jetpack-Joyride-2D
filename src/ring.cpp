@@ -6,8 +6,8 @@ Ring::Ring(float x, float y, color_t color) {
 	
 	this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
-    this->radius = 1.0f;
-    this->thickness = 0.05f;
+    this->radius = 1.5f;
+    this->thickness = 0.03f;
     this->speed_x = 0.03f;
     this->on = false;
 

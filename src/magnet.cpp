@@ -6,7 +6,6 @@
 
 Magnet::Magnet(color_t color) {
 
-    this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
     this->present = false;
     this->thickness = 0.1;
@@ -44,6 +43,7 @@ Magnet::Magnet(color_t color) {
 }
 
 void Magnet::draw(glm::mat4 VP) {
+        if (!this->direction) this->rotation = 180.0f;
         Matrices.model = glm::mat4(1.0f);
         glm::mat4 translate = glm::translate (this->position);    // glTranslatef
         glm::mat4 rotate    = glm::rotate((float) (this->rotation * M_PI / 180.0f), glm::vec3(0, 0, 1));
@@ -57,6 +57,6 @@ void Magnet::draw(glm::mat4 VP) {
 
 void Magnet::tick () {
     this->ctime += 1;
-    if (this->tick > 40)
+    if (this->ctime > 1500)
         this->present = 0;
 }

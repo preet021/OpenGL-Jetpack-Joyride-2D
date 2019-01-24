@@ -43,6 +43,7 @@ CMakeFiles/jetpack.dir/src/main.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/platform.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/propulsion.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/timer.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/waterball.h
 CMakeFiles/jetpack.dir/src/nonedit.cpp.o
@@ -63,6 +64,10 @@ CMakeFiles/jetpack.dir/src/ring.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.cpp
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.h
+CMakeFiles/jetpack.dir/src/score.cpp.o
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.cpp
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.h
 CMakeFiles/jetpack.dir/src/timer.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/timer.cpp
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/timer.h

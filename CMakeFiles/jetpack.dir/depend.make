@@ -42,6 +42,7 @@ CMakeFiles/jetpack.dir/src/main.cpp.o: src/main.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/platform.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/propulsion.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/ring.h
+CMakeFiles/jetpack.dir/src/main.cpp.o: src/score.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/timer.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/waterball.h
 
@@ -62,6 +63,10 @@ CMakeFiles/jetpack.dir/src/propulsion.cpp.o: src/propulsion.h
 CMakeFiles/jetpack.dir/src/ring.cpp.o: src/main.h
 CMakeFiles/jetpack.dir/src/ring.cpp.o: src/ring.cpp
 CMakeFiles/jetpack.dir/src/ring.cpp.o: src/ring.h
+
+CMakeFiles/jetpack.dir/src/score.cpp.o: src/main.h
+CMakeFiles/jetpack.dir/src/score.cpp.o: src/score.cpp
+CMakeFiles/jetpack.dir/src/score.cpp.o: src/score.h
 
 CMakeFiles/jetpack.dir/src/timer.cpp.o: src/timer.cpp
 CMakeFiles/jetpack.dir/src/timer.cpp.o: src/timer.h

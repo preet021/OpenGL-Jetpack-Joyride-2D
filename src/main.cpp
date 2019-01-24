@@ -10,6 +10,7 @@
 #include "firebeam.h"
 #include "ring.h"
 #include "boomerang.h"
+#include "score.h"
 #include <iostream>
 #define INF 999999999
 #define pb push_back
@@ -25,11 +26,13 @@ GLFWwindow *window;
 **************************/
 void detect_collisions();
 float dist(float a, float b, float c, float d);
+void display_score();
 
 Ball ball;
 Platform platform;
 Boomerang boom;
 Magnet magnet;
+vector <Score> scr;
 vector <Firebeam> firebeams;
 vector <Coin> coins;
 vector <Fireline> firelines;
@@ -37,9 +40,9 @@ vector <Waterball> waterballs;
 vector <Propulsion> gas;
 vector<Ring> rings;
 bounding_box_t b;
-color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52}, COLOR_RING = {220, 239, 157}, COLOR_BOOM = {243, 46 ,46};
+color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52}, COLOR_RING = {220, 239, 157}, COLOR_BOOM = {243, 46 ,46}, COLOR_COIN1 = {20, 200, 20};
 
-int NO_OF_FIRELINES = 5, NO_OF_COINS = 10, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 4, NO_OF_MAGNETS = 2, NO_OF_RINGS = 2;
+int NO_OF_FIRELINES = 5, NO_OF_COINS = 10, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 4, NO_OF_MAGNETS = 2, NO_OF_RINGS = 2, NO_OF_BOOM = 3, score = 0, lives_remaining = 5;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0, camera_rotation_angle = 0, cx, cy, r;
 bool onRing = 0;
 int ii = 0, ind;
@@ -86,7 +89,7 @@ void draw() {
         if (coins[i].position.x != INF)
             coins[i].draw(VP);
     }
-    
+
     for (int i=0; i<NO_OF_FIRELINES; ++i) {
         if (firelines[i].position.x != INF)
             firelines[i].draw(VP);
@@ -116,6 +119,10 @@ void draw() {
 
     if (boom.present)
         boom.draw(VP);
+
+    for (int i=0; i<(int)scr.size(); ++i) {
+        scr[i].draw(VP);
+    }
 
 }
 
@@ -208,23 +215,28 @@ void tick_input(GLFWwindow *window) {
         boom.tick();
     
     if (magnet.present) {
-        if (dir) {
+        if (magnet.direction) {
             if (ball.position.x > magnet.position.x) {
                 ball.position.x -= 0.02f;
                 if (ball.position.x < magnet.position.x)
                     ball.position.x = magnet.position.x;
+                if (ball.position.y > magnet.position.y) {
+                    ball.position.y = (ball.position.y - 0.06 >= magnet.position.y) ? (ball.position.y - 0.06) : (magnet.position.y);
+                } else {
+                    ball.position.y = (ball.position.y + 0.06 <= magnet.position.y) ? (ball.position.y + 0.06) : (magnet.position.y);
+                }
             }
         } else {
             if (ball.position.x < magnet.position.x) {
                 ball.position.x += 0.02f;
                 if (ball.position.x > magnet.position.x)
                     ball.position.x = magnet.position.x;
+                if (ball.position.y > magnet.position.y) {
+                    ball.position.y = (ball.position.y - 0.06 >= magnet.position.y) ? (ball.position.y - 0.06) : (magnet.position.y);
+                } else {
+                    ball.position.y = (ball.position.y + 0.06 <= magnet.position.y) ? (ball.position.y + 0.06) : (magnet.position.y);
+                }
             }
-        }
-        if (ball.position.y > magnet.position.y) {
-            ball.position.y = (ball.position.y - 0.03 >= magnet.position.y) ? (ball.position.y - 0.03) : (magnet.position.y);
-        } else {
-            ball.position.y = (ball.position.y + 0.03 <= magnet.position.y) ? (ball.position.y + 0.03) : (magnet.position.y);
         }
         magnet.tick();
     }
@@ -239,10 +251,14 @@ void initGL(GLFWwindow *window, int width, int height) {
 
     platform = Platform(0, -2, COLOR_PLATFORM);
     
-    for (int i=0, x, y; i<NO_OF_COINS; ++i) {
+    for (int i=0, x, y, t; i<NO_OF_COINS; ++i) {
         x = 5 + rand() % 50;
         y = -1 + rand() % 5;
-        coins.pb(Coin(x, y, COLOR_COIN));
+        color_t c;
+        t = rand() % 2;
+        if (!t) c = COLOR_COIN;
+        else c = COLOR_COIN1;
+        coins.pb(Coin(x, y, c, t));
     }
     
     for (int i=0, x, y; i<NO_OF_FIRELINES; ++i) {
@@ -290,7 +306,6 @@ void initGL(GLFWwindow *window, int width, int height) {
     cout << "GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
 }
 
-
 int main(int argc, char **argv) {
     srand(time(0));
     int width  = 600;
@@ -305,10 +320,13 @@ int main(int argc, char **argv) {
         // Process timers
         if (t60.processTick()) {
             // 60 fps
+            
             // OpenGL Draw commands
             draw();
+            
             // Swap Frame Buffer in double buffering
             glfwSwapBuffers(window);
+
             reset_screen();
 
             detect_collisions();
@@ -331,18 +349,26 @@ int main(int argc, char **argv) {
                     firebeams[i].speed_y *= -1;
             }
 
-            if ((rand() % 1007 == 53) && !boom.present) {
+            if ((rand() % 1007 == 53) && !boom.present && NO_OF_BOOM > 0) {
+                NO_OF_BOOM--;
                 boom.present = true;
                 boom.position.y = 2.5;
                 boom.position.x = boom.cx + ((boom.position.y - boom.cy)*(boom.position.y - boom.cy));
             }
 
-            if ((rand() % 2007 == 97) && !magnet.present) {
+            if ((rand() % 2007 == 97) && !magnet.present && NO_OF_MAGNETS > 0) {
+                NO_OF_MAGNETS--;
                 magnet.present = true;
                 magnet.position.x = -3 + rand() % 6;
                 magnet.position.y = -1.5 + rand() % 5;
                 magnet.ctime = 0;
+                magnet.direction = rand() % 2;
             }
+
+            if (lives_remaining == 0)
+                break;
+
+            display_score();
             
             tick_input(window);
         }
@@ -351,6 +377,9 @@ int main(int argc, char **argv) {
         glfwPollEvents();
     }
 
+    cout << "----------------Game Over---------------\n";
+    cout << "Final Score: " << score + lives_remaining << endl;
+
     quit(window);
 }
 
@@ -358,14 +387,18 @@ void detect_collisions() {
 
     // ball and coins
     for (int i=0; i<NO_OF_COINS; ++i) {
+        if (coins[i].position.x == INF) continue;
         if ((2 * abs(ball.b.x - coins[i].b.x) < (ball.b.width + coins[i].b.width)) 
             && (2 * abs(ball.b.y - coins[i].b.y) < (ball.b.height + coins[i].b.height))) {
+            if (!coins[i].type) ++score;
+            else score += 3;
             coins[i].position.x = INF;
         }
     }
 
     // ball and fire
     for (int i=0; i<NO_OF_FIRELINES; ++i) {
+        if (firelines[i].position.x == INF) continue;
         float delta = firelines[i].length*cos(firelines[i].rotation*M_PI/180.0);
         float x1, x2, y1, y2;
         x1 = firelines[i].position.x;
@@ -374,6 +407,7 @@ void detect_collisions() {
         y2 = firelines[i].position.y + firelines[i].length*sin(firelines[i].rotation*M_PI/180.0);
         bool z = (abs(dist(x1, y1, ball.b.x, ball.b.y) + dist(x2, y2, ball.b.x, ball.b.y) - firelines[i].length) <= 0.1);
         if (z) {
+            lives_remaining--;
             firelines[i].position.x = INF;
             ball.b.x = ball.position.x = -3.0;
             ball.b.y = ball.position.y = 0;
@@ -381,6 +415,7 @@ void detect_collisions() {
     }
 
     for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
+        if (firebeams[i].position.x == INF) continue;
         float delta = firebeams[i].length*cos(firebeams[i].rotation*M_PI/180.0);
         float x1, x2, y1, y2;
         x1 = firebeams[i].position.x;
@@ -389,6 +424,7 @@ void detect_collisions() {
         y2 = firebeams[i].position.y + firebeams[i].length*sin(firebeams[i].rotation*M_PI/180.0);
         bool z = (abs(dist(x1, y1, ball.b.x, ball.b.y) + dist(x2, y2, ball.b.x, ball.b.y) - firebeams[i].length) <= 0.1);
         if (z) {
+            --lives_remaining;
             firebeams[i].position.x = INF;
             ball.b.x = ball.position.x = -3.0;
             ball.b.y = ball.position.y = 0;
@@ -447,8 +483,9 @@ void detect_collisions() {
         onRing = 0;
 
     // ball with boomerang
-    if ((2 * abs(ball.b.x - boom.b.x) < (ball.b.width + boom.b.width)) 
+    if (boom.present && (2 * abs(ball.b.x - boom.b.x) < (ball.b.width + boom.b.width)) 
         && (2 * abs(ball.b.y - boom.b.y) < (ball.b.height + boom.b.height))) {
+        --lives_remaining;
         ball.position.x = -3;
         ball.position.y = 0;
     }
@@ -457,6 +494,36 @@ void detect_collisions() {
 
 float dist(float a, float b, float c, float d) {
 	return sqrt((a-c)*(a-c) + (b-d)*(b-d));
+}
+
+void display_score () {
+    scr.clear();
+    int dgt, i = 0;
+    while (i < 4) {
+        dgt = score % (10*(i + 1));
+        if (dgt == 0 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
+            scr.pb(Score(-3+i/3.0, -3 + 0.3, 0, COLOR_BLACK));
+        }
+        if (dgt == 0 || dgt == 2 || dgt == 6 || dgt == 8) {
+            scr.pb(Score(-3+i/3.0, -3, 0, COLOR_BLACK));
+        }
+        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9) {
+            scr.pb(Score(-3+i/3.0, -3 + 0.6, 270, COLOR_BLACK));
+        }
+        if (dgt == 2 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
+            scr.pb(Score(-3+i/3.0, -3 + 0.3, 270, COLOR_BLACK));
+        }
+        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
+            scr.pb(Score(-3+i/3.0, -3, 270, COLOR_BLACK));
+        }
+        if (dgt == 0 || dgt == 1 || dgt == 2 || dgt == 3 || dgt == 4 || dgt == 7 || dgt == 8 || dgt == 9) {
+            scr.pb(Score(-3+0.3*i+i/3.0+0.3, -3 + 0.3, 0, COLOR_BLACK));
+        }
+        if (dgt == 0 || dgt == 1 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9) {
+            scr.pb(Score(-3+i/3.0+0.3, -3, 0, COLOR_BLACK));
+        }
+    }
+    ++i;
 }
 
 void reset_screen() {

@@ -501,6 +501,33 @@ src/ring.cpp.s:
 	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/ring.cpp.s
 .PHONY : src/ring.cpp.s
 
+src/score.o: src/score.cpp.o
+
+.PHONY : src/score.o
+
+# target to build an object file
+src/score.cpp.o:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/score.cpp.o
+.PHONY : src/score.cpp.o
+
+src/score.i: src/score.cpp.i
+
+.PHONY : src/score.i
+
+# target to preprocess a source file
+src/score.cpp.i:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/score.cpp.i
+.PHONY : src/score.cpp.i
+
+src/score.s: src/score.cpp.s
+
+.PHONY : src/score.s
+
+# target to generate assembly for a file
+src/score.cpp.s:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/score.cpp.s
+.PHONY : src/score.cpp.s
+
 src/timer.o: src/timer.cpp.o
 
 .PHONY : src/timer.o
@@ -606,6 +633,9 @@ help:
 	@echo "... src/ring.o"
 	@echo "... src/ring.i"
 	@echo "... src/ring.s"
+	@echo "... src/score.o"
+	@echo "... src/score.i"
+	@echo "... src/score.s"
 	@echo "... src/timer.o"
 	@echo "... src/timer.i"
 	@echo "... src/timer.s"

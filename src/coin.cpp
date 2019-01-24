@@ -4,16 +4,17 @@
 #define N_TRNG 360
 #define INF 999999999
 
-Coin::Coin(float x, float y, color_t color) {
+Coin::Coin(float x, float y, color_t color, int typ) {
 
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
-    radius = 0.15f;
-    b.x = x;
-    b.y = y;
-    b.width = 2*radius;
-    b.height = 2*radius;
-    speed_x = 0.03;
+    this->radius = 0.15f;
+    this->b.x = x;
+    this->b.y = y;
+    this->b.width = 2*radius;
+    this->b.height = 2*radius;
+    this->speed_x = 0.03;
+    this->type = typ;
 
     GLfloat vertex_buffer_data[N_TRNG*9];
 
@@ -33,7 +34,27 @@ Coin::Coin(float x, float y, color_t color) {
 
     }
 
-    this->object = create3DObject(GL_TRIANGLES, N_TRNG*3, vertex_buffer_data, color, GL_FILL);
+    GLfloat vertex_buffer_data1[] = {
+        0.0f, 0.0f, 0.0f,
+        -radius, 0.0f, 0.0f,
+        0.0f, radius, 0.0f,
+
+        0.0f, radius, 0.0f,
+        0.0f, 0.0f, 0.0f,
+        radius, 0.0f, 0.0f,
+
+        0.0f, 0.0f, 0.0f,
+        0.0f, -radius, 0.0f,
+        -radius, 0.0f, 0.0f,
+
+        0.0f, 0.0f, 0.0f,
+        0.0f, -radius, 0.0f,
+        radius, 0.0f, 0.0f
+    };
+
+    if (!this->type)
+        this->object = create3DObject(GL_TRIANGLES, N_TRNG*3, vertex_buffer_data, color, GL_FILL);
+    else this->object = create3DObject(GL_TRIANGLES, 36, vertex_buffer_data1, color, GL_FILL);
 }
 
 void Coin::draw(glm::mat4 VP) {
