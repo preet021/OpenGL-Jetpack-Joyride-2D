@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ball.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/ball.cpp.o"
+  "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bank.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/bank.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/boomerang.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/coin.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/color.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/color.cpp.o"
@@ -19,6 +20,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/propulsion.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/propulsion.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ring.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/ring.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/score.cpp.o"
+  "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/speedup.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/speedup.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/timer.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/timer.cpp.o"
   "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/waterball.cpp" "/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/CMakeFiles/jetpack.dir/src/waterball.cpp.o"
   )

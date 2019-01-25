@@ -150,6 +150,33 @@ src/ball.cpp.s:
 	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/ball.cpp.s
 .PHONY : src/ball.cpp.s
 
+src/bank.o: src/bank.cpp.o
+
+.PHONY : src/bank.o
+
+# target to build an object file
+src/bank.cpp.o:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/bank.cpp.o
+.PHONY : src/bank.cpp.o
+
+src/bank.i: src/bank.cpp.i
+
+.PHONY : src/bank.i
+
+# target to preprocess a source file
+src/bank.cpp.i:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/bank.cpp.i
+.PHONY : src/bank.cpp.i
+
+src/bank.s: src/bank.cpp.s
+
+.PHONY : src/bank.s
+
+# target to generate assembly for a file
+src/bank.cpp.s:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/bank.cpp.s
+.PHONY : src/bank.cpp.s
+
 src/boomerang.o: src/boomerang.cpp.o
 
 .PHONY : src/boomerang.o
@@ -528,6 +555,33 @@ src/score.cpp.s:
 	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/score.cpp.s
 .PHONY : src/score.cpp.s
 
+src/speedup.o: src/speedup.cpp.o
+
+.PHONY : src/speedup.o
+
+# target to build an object file
+src/speedup.cpp.o:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/speedup.cpp.o
+.PHONY : src/speedup.cpp.o
+
+src/speedup.i: src/speedup.cpp.i
+
+.PHONY : src/speedup.i
+
+# target to preprocess a source file
+src/speedup.cpp.i:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/speedup.cpp.i
+.PHONY : src/speedup.cpp.i
+
+src/speedup.s: src/speedup.cpp.s
+
+.PHONY : src/speedup.s
+
+# target to generate assembly for a file
+src/speedup.cpp.s:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/speedup.cpp.s
+.PHONY : src/speedup.cpp.s
+
 src/timer.o: src/timer.cpp.o
 
 .PHONY : src/timer.o
@@ -594,6 +648,9 @@ help:
 	@echo "... src/ball.o"
 	@echo "... src/ball.i"
 	@echo "... src/ball.s"
+	@echo "... src/bank.o"
+	@echo "... src/bank.i"
+	@echo "... src/bank.s"
 	@echo "... src/boomerang.o"
 	@echo "... src/boomerang.i"
 	@echo "... src/boomerang.s"
@@ -636,6 +693,9 @@ help:
 	@echo "... src/score.o"
 	@echo "... src/score.i"
 	@echo "... src/score.s"
+	@echo "... src/speedup.o"
+	@echo "... src/speedup.i"
+	@echo "... src/speedup.s"
 	@echo "... src/timer.o"
 	@echo "... src/timer.i"
 	@echo "... src/timer.s"

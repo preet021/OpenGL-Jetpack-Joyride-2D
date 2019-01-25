@@ -11,10 +11,12 @@
 #include "ring.h"
 #include "boomerang.h"
 #include "score.h"
+#include "speedup.h"
+#include "bank.h"
 #include <iostream>
 #define INF 999999999
 #define pb push_back
-
+#define sz(a) (int)(a).size() 
 using namespace std;
 
 GLMatrices Matrices;
@@ -28,6 +30,8 @@ void detect_collisions();
 float dist(float a, float b, float c, float d);
 void display_score();
 
+Speedup speedup;
+Bank bank;
 Ball ball;
 Platform platform;
 Boomerang boom;
@@ -39,13 +43,14 @@ vector <Fireline> firelines;
 vector <Waterball> waterballs;
 vector <Propulsion> gas;
 vector<Ring> rings;
+Ring shield[2];
 bounding_box_t b;
 color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52}, COLOR_RING = {220, 239, 157}, COLOR_BOOM = {243, 46 ,46}, COLOR_COIN1 = {20, 200, 20};
 
-int NO_OF_FIRELINES = 5, NO_OF_COINS = 10, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 4, NO_OF_MAGNETS = 2, NO_OF_RINGS = 2, NO_OF_BOOM = 3, score = 0, lives_remaining = 5;
-float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0, camera_rotation_angle = 0, cx, cy, r;
-bool onRing = 0;
-int ii = 0, ind;
+int NO_OF_FIRELINES = 5, NO_OF_COINS = 28, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 4, NO_OF_MAGNETS = 0, NO_OF_RINGS = 6, NO_OF_BOOM = 5, score = 0, lives_remaining = 10;
+float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0, camera_rotation_angle = 0, cx, cy, r, screen_speed = 0.03, spd_inc = 0.2;
+bool onRing = 0, gravity = 1, has_speedup = 0;
+int ind, ticks_boom = 0, ticks_magnet = 0;
 
 Timer t60(1.0 / 60);
 
@@ -82,15 +87,18 @@ void draw() {
 
     // Scene render
     ball.draw(VP);
+    ball.speed_x_act = screen_speed;
 
     platform.draw(VP);
     
     for (int i=0; i<NO_OF_COINS; ++i) {
+        coins[i].speed_x = screen_speed;
         if (coins[i].position.x != INF)
             coins[i].draw(VP);
     }
 
     for (int i=0; i<NO_OF_FIRELINES; ++i) {
+        firelines[i].speed_x = screen_speed;
         if (firelines[i].position.x != INF)
             firelines[i].draw(VP);
     }
@@ -109,19 +117,31 @@ void draw() {
         magnet.draw(VP);
     
     for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
+        firebeams[i].speed_x = screen_speed;
         if (firebeams[i].position.x != INF)
             firebeams[i].draw(VP);
     }
 
     for (int i=0; i<NO_OF_RINGS; ++i) {
+        rings[i].speed_x = screen_speed;
         rings[i].draw(VP);
     }
 
     if (boom.present)
         boom.draw(VP);
 
-    for (int i=0; i<(int)scr.size(); ++i) {
+    for (int i=0; i<sz(scr); ++i) {
         scr[i].draw(VP);
+    }
+
+    if (speedup.present) {
+        speedup.speed_x = screen_speed;
+        speedup.draw(VP);
+    }
+
+    if (bank.present) {
+        bank.speed_x = screen_speed;
+        bank.draw(VP);
     }
 
 }
@@ -147,6 +167,10 @@ void tick_elements(bool dir) {
         rings[i].tick(dir);
     }
 
+    if (speedup.present) speedup.tick(dir);
+
+    if (bank.present) bank.tick(dir);
+
     // camera_rotation_angle += 1;
 }
 
@@ -157,7 +181,7 @@ void tick_input(GLFWwindow *window) {
     int up = glfwGetKey(window, GLFW_KEY_W);
     int space = glfwGetKey(window, GLFW_KEY_SPACE);
 
-    if (!onRing)
+    if (!onRing && gravity)
         ball.tick(DIR_DOWN);
         
     if (left) {
@@ -169,8 +193,8 @@ void tick_input(GLFWwindow *window) {
     if (right) {
         if (ball.position.x >= 3.78)
         {
-            ball.position.x = 0;
-            for (int i=0; i<60; ++i)
+            ball.position.x -= 100*screen_speed;
+            for (int i=0; i<100; ++i)
                 tick_elements(1);
         }
         else
@@ -188,13 +212,8 @@ void tick_input(GLFWwindow *window) {
         delta = -25.0 + rand() % 50;
         x = ball.position.x + ball.b.width*(delta/100.0);
         gas.pb(Propulsion(x, y, COLOR_PROPULSION));
-        
-        y = ball.position.y - ball.b.height/2.0;
-        delta = -25.0 + rand() % 50;
-        x = ball.position.x + ball.b.width*(delta/100.0);
-        gas.pb(Propulsion(x, y, COLOR_PROPULSION));
-        
-        NO_OF_GAS += 2;
+                    
+        NO_OF_GAS += 1;
         ball.tick(DIR_UP);
     }
     
@@ -213,33 +232,10 @@ void tick_input(GLFWwindow *window) {
     
     if (boom.present)
         boom.tick();
+
+    if (has_speedup)
+        tick_elements(1);
     
-    if (magnet.present) {
-        if (magnet.direction) {
-            if (ball.position.x > magnet.position.x) {
-                ball.position.x -= 0.02f;
-                if (ball.position.x < magnet.position.x)
-                    ball.position.x = magnet.position.x;
-                if (ball.position.y > magnet.position.y) {
-                    ball.position.y = (ball.position.y - 0.06 >= magnet.position.y) ? (ball.position.y - 0.06) : (magnet.position.y);
-                } else {
-                    ball.position.y = (ball.position.y + 0.06 <= magnet.position.y) ? (ball.position.y + 0.06) : (magnet.position.y);
-                }
-            }
-        } else {
-            if (ball.position.x < magnet.position.x) {
-                ball.position.x += 0.02f;
-                if (ball.position.x > magnet.position.x)
-                    ball.position.x = magnet.position.x;
-                if (ball.position.y > magnet.position.y) {
-                    ball.position.y = (ball.position.y - 0.06 >= magnet.position.y) ? (ball.position.y - 0.06) : (magnet.position.y);
-                } else {
-                    ball.position.y = (ball.position.y + 0.06 <= magnet.position.y) ? (ball.position.y + 0.06) : (magnet.position.y);
-                }
-            }
-        }
-        magnet.tick();
-    }
 }
 
 /* Initialize the OpenGL rendering properties */
@@ -252,38 +248,43 @@ void initGL(GLFWwindow *window, int width, int height) {
     platform = Platform(0, -2, COLOR_PLATFORM);
     
     for (int i=0, x, y, t; i<NO_OF_COINS; ++i) {
-        x = 5 + rand() % 50;
-        y = -1 + rand() % 5;
+        y = -1 + rand() % 4;
         color_t c;
         t = rand() % 2;
         if (!t) c = COLOR_COIN;
         else c = COLOR_COIN1;
+        if (!t) x = 5 + rand() % 60;
+        else x = 20 + rand() % 100;
         coins.pb(Coin(x, y, c, t));
     }
     
     for (int i=0, x, y; i<NO_OF_FIRELINES; ++i) {
-        float len = 1.5 + rand() % 2;
-        float rotation = rand() % 180;
-        x = 5 + rand()%50;
-        y = -1 + rand() % 5;
+        float len = 1 + rand() % 2;
+        float rotation = 50 + rand() % 80;
+        x = 5 + rand()%30;
+        y = -1 + rand() % 4;
         firelines.pb(Fireline(x, y, rotation, len, COLOR_FIRE));
     }
     
     magnet = Magnet(COLOR_MAGNET);
     
     for (int i=0, x, y; i<NO_OF_FIREBEAMS; i+=2) {
-        float len = 1.5 + rand() % 2;
-        x = 5 + rand() % 50;
+        float len = 1 + rand() % 2;
+        x = 40 + rand() % 35;
         y = -1;
         firebeams.pb(Firebeam(x, y, len, COLOR_FIRE, 0));
         firebeams.pb(Firebeam(x, y + 1, len, COLOR_FIRE, 1));
     }
 
     for (int i=0; i<NO_OF_RINGS; ++i) {
-        rings.pb(Ring(5 + rand() % 50, -1 + rand() % 3, COLOR_RING));
+        rings.pb(Ring(35 + rand() % 50, -1 + rand() % 3, COLOR_RING));
     }
 
     boom = Boomerang(COLOR_BOOM);
+
+    speedup = Speedup(20 + rand() % 20, 1);
+
+    bank = Bank(0, 0);
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
@@ -343,26 +344,47 @@ int main(int argc, char **argv) {
 
             for (int i=0; i<NO_OF_FIREBEAMS; i++) {
                 firebeams[i].position.y += firebeams[i].speed_y;
-                if ((i & 1) && (firebeams[i].position.y > 3.5 || firebeams[i].position.y < 0))
+                if ((i & 1) && (firebeams[i].position.y > 3.5 || firebeams[i].position.y < -0.1))
                     firebeams[i].speed_y *= -1;
-                if (!(i & 1) && (firebeams[i].position.y > 2.5 || firebeams[i].position.y < -1.5))
+                if (!(i & 1) && (firebeams[i].position.y > 2.5 || firebeams[i].position.y < -1.2))
                     firebeams[i].speed_y *= -1;
             }
 
-            if ((rand() % 1007 == 53) && !boom.present && NO_OF_BOOM > 0) {
+            if (speedup.present)
+            {
+                speedup.position.y += speedup.speed_y;
+                if (speedup.position.y >= 3 || speedup.position.y <= -1.5)
+                    speedup.speed_y *= -1;
+            }
+
+            if (has_speedup)
+            {
+                speedup.rtime -= 1;
+                if (speedup.rtime <= 0)
+                {
+                    has_speedup = 0;
+                    screen_speed -= spd_inc;
+                }
+            }
+
+            if ((rand() % 1007 == 53) && !boom.present && NO_OF_BOOM > 0 && ticks_boom >= 1500) {
+                ticks_boom = 0;
                 NO_OF_BOOM--;
                 boom.present = true;
                 boom.position.y = 2.5;
                 boom.position.x = boom.cx + ((boom.position.y - boom.cy)*(boom.position.y - boom.cy));
             }
 
-            if ((rand() % 2007 == 97) && !magnet.present && NO_OF_MAGNETS > 0) {
+            if ((rand() % 1007 == 93) && !magnet.present && NO_OF_MAGNETS > 0 && ticks_magnet >= 1000) {
+                ticks_magnet = 0;
                 NO_OF_MAGNETS--;
                 magnet.present = true;
                 magnet.position.x = -3 + rand() % 6;
                 magnet.position.y = -1.5 + rand() % 5;
                 magnet.ctime = 0;
                 magnet.direction = rand() % 2;
+                if (magnet.direction) magnet.rotation = 180.0f;
+                else magnet.rotation = 0.0f;
             }
 
             if (lives_remaining == 0)
@@ -371,6 +393,34 @@ int main(int argc, char **argv) {
             display_score();
             
             tick_input(window);
+
+            ++ticks_magnet;
+            ++ticks_boom;
+            
+            if (magnet.present) {
+                if (ball.position.x >= magnet.position.x) {
+                    ball.position.x -= 0.02f;
+                    if (ball.position.x < magnet.position.x)
+                        ball.position.x = magnet.position.x;
+                    if (ball.position.y > magnet.position.y) {
+                        ball.position.y = (ball.position.y - 0.06 >= magnet.position.y) ? (ball.position.y - 0.06) : (magnet.position.y);
+                    } else {
+                        ball.position.y = (ball.position.y + 0.06 <= magnet.position.y) ? (ball.position.y + 0.06) : (magnet.position.y);
+                    }
+                }
+                else if (ball.position.x < magnet.position.x) {
+                    ball.position.x += 0.02f;
+                    if (ball.position.x > magnet.position.x)
+                        ball.position.x = magnet.position.x;
+                    if (ball.position.y > magnet.position.y) {
+                        ball.position.y = (ball.position.y - 0.06 >= magnet.position.y) ? (ball.position.y - 0.06) : (magnet.position.y);
+                    } else {
+                        ball.position.y = (ball.position.y + 0.06 <= magnet.position.y) ? (ball.position.y + 0.06) : (magnet.position.y);
+                    }
+                }
+                magnet.tick();
+            }
+
         }
 
         // Poll for Keyboard and mouse events
@@ -397,7 +447,7 @@ void detect_collisions() {
     }
 
     // ball and fire
-    for (int i=0; i<NO_OF_FIRELINES; ++i) {
+    for (int i=0; i<NO_OF_FIRELINES && !onRing && !has_speedup; ++i) {
         if (firelines[i].position.x == INF) continue;
         float delta = firelines[i].length*cos(firelines[i].rotation*M_PI/180.0);
         float x1, x2, y1, y2;
@@ -410,11 +460,11 @@ void detect_collisions() {
             lives_remaining--;
             firelines[i].position.x = INF;
             ball.b.x = ball.position.x = -3.0;
-            ball.b.y = ball.position.y = 0;
+            ball.b.y = ball.position.y = 5;
         }
     }
 
-    for (int i=0; i<NO_OF_FIREBEAMS; ++i) {
+    for (int i=0; i<NO_OF_FIREBEAMS && !onRing; ++i) {
         if (firebeams[i].position.x == INF) continue;
         float delta = firebeams[i].length*cos(firebeams[i].rotation*M_PI/180.0);
         float x1, x2, y1, y2;
@@ -427,7 +477,7 @@ void detect_collisions() {
             --lives_remaining;
             firebeams[i].position.x = INF;
             ball.b.x = ball.position.x = -3.0;
-            ball.b.y = ball.position.y = 0;
+            ball.b.y = ball.position.y = 5;
         }
     }
 
@@ -466,7 +516,7 @@ void detect_collisions() {
     }
 
     // check if ball is on any ring
-    for (int i=0; i<NO_OF_RINGS; ++i) {
+    for (int i=0; i<NO_OF_RINGS && !has_speedup; ++i) {
         bool a, b;
         cx = rings[i].position.x, cy = rings[i].position.y, r = rings[i].radius + rings[i].thickness / 2.0;
         a = (abs(dist(ball.position.x, ball.position.y, rings[i].position.x, rings[i].position.y) - rings[i].radius - rings[i].thickness) <= 0.1);
@@ -483,11 +533,37 @@ void detect_collisions() {
         onRing = 0;
 
     // ball with boomerang
-    if (boom.present && (2 * abs(ball.b.x - boom.b.x) < (ball.b.width + boom.b.width)) 
+    if (!has_speedup && !onRing && boom.present && (2 * abs(ball.b.x - boom.b.x) < (ball.b.width + boom.b.width)) 
         && (2 * abs(ball.b.y - boom.b.y) < (ball.b.height + boom.b.height))) {
         --lives_remaining;
         ball.position.x = -3;
-        ball.position.y = 0;
+        ball.position.y = 5;
+    }
+
+    // ball with speedup
+    speedup.b.x = speedup.position.x;
+    speedup.b.y = speedup.position.y;
+    speedup.b.height = speedup.b.width = 2*(speedup.radius1+speedup.thickness);
+    if (speedup.present && (2 * abs(ball.b.x - speedup.b.x) < (ball.b.width + speedup.b.width)) 
+        && (2 * abs(ball.b.y - speedup.b.y) < (ball.b.height + speedup.b.height))) {
+        has_speedup = 1;
+        screen_speed += spd_inc;
+        speedup.present = false;
+    }
+
+    // ball with coin bank
+    bank.b.x = bank.position.x + bank.radius;
+    bank.b.y = bank.position.y - bank.radius;
+    if (bank.present && (2 * abs(ball.b.x - bank.b.x) < (ball.b.width + bank.b.width)) 
+        && (2 * abs(ball.b.y - bank.b.y) < (ball.b.height + bank.b.height))) {
+        bank.present = false;
+        cy = bank.position.y;
+        for (int i=0; i<5; ++i, cy+=0.4) {
+            cx = bank.position.x + 1;
+            for (int j=0; j<5; ++j, cx+=0.4) {
+                coins.pb(Coin(cx, cy, COLOR_COIN, 0));
+            }
+        }
     }
 
 }
@@ -498,32 +574,23 @@ float dist(float a, float b, float c, float d) {
 
 void display_score () {
     scr.clear();
-    int dgt, i = 0;
-    while (i < 4) {
-        dgt = score % (10*(i + 1));
-        if (dgt == 0 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
-            scr.pb(Score(-3+i/3.0, -3 + 0.3, 0, COLOR_BLACK));
-        }
-        if (dgt == 0 || dgt == 2 || dgt == 6 || dgt == 8) {
-            scr.pb(Score(-3+i/3.0, -3, 0, COLOR_BLACK));
-        }
-        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9) {
-            scr.pb(Score(-3+i/3.0, -3 + 0.6, 270, COLOR_BLACK));
-        }
-        if (dgt == 2 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
-            scr.pb(Score(-3+i/3.0, -3 + 0.3, 270, COLOR_BLACK));
-        }
-        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
-            scr.pb(Score(-3+i/3.0, -3, 270, COLOR_BLACK));
-        }
-        if (dgt == 0 || dgt == 1 || dgt == 2 || dgt == 3 || dgt == 4 || dgt == 7 || dgt == 8 || dgt == 9) {
-            scr.pb(Score(-3+0.3*i+i/3.0+0.3, -3 + 0.3, 0, COLOR_BLACK));
-        }
-        if (dgt == 0 || dgt == 1 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9) {
-            scr.pb(Score(-3+i/3.0+0.3, -3, 0, COLOR_BLACK));
-        }
+    for (int i=0, dgt, p=10; i<4; p*=10, ++i) {
+        dgt = (10 * (score % p)) / p;
+        if (dgt == 0 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
+            scr.pb(Score(-3.5+(3-i)/2.0, -3 + 0.3, 0, COLOR_BLACK));
+        if (dgt == 0 || dgt == 2 || dgt == 6 || dgt == 8)
+            scr.pb(Score(-3.5+(3-i)/2.0, -3, 0, COLOR_BLACK));
+        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9)
+            scr.pb(Score(-3.5+(3-i)/2.0+0.1, -3 + 0.6, 270, COLOR_BLACK));
+        if (dgt == 2 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
+            scr.pb(Score(-3.5+(3-i)/2.0+0.1, -3 + 0.3, 270, COLOR_BLACK));
+        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
+            scr.pb(Score(-3.5+(3-i)/2.0+0.1, -3, 270, COLOR_BLACK));
+        if (dgt == 0 || dgt == 1 || dgt == 2 || dgt == 3 || dgt == 4 || dgt == 7 || dgt == 8 || dgt == 9)
+            scr.pb(Score(-3.5+(3-i)/2.0+0.3, -3 + 0.3, 0, COLOR_BLACK));
+        if (dgt == 0 || dgt == 1 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9)
+            scr.pb(Score(-3.5+(3-i)/2.0+0.3, -3, 0, COLOR_BLACK));
     }
-    ++i;
 }
 
 void reset_screen() {

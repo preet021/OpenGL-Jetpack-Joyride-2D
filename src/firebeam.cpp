@@ -65,56 +65,6 @@ Firebeam::Firebeam(float x, float y, float len, color_t color, bool t) {
     vertex_buffer_data[18*N_TRNG+15] = length;
     vertex_buffer_data[18*N_TRNG+16] = -radius/2.0;
 
-    // for (int i=0; i<9*N_TRNG; i+=9) {
-
-    //     vertex_buffer_color[i] = 120.0f;
-    //     vertex_buffer_color[i+1] = 120.0f;
-    //     vertex_buffer_color[i+2] = 120.0f;
-
-    //     vertex_buffer_color[i+3] = 120.0f;
-    //     vertex_buffer_color[i+4] = 120.0f;
-    //     vertex_buffer_color[i+5] = 120.0f;
-
-    //     vertex_buffer_color[i+6] = 120.0f;
-    //     vertex_buffer_color[i+7] = 120.0f;
-    //     vertex_buffer_color[i+8] = 120.0f;
-
-    // }
-
-    // for (int i=0; i<9*N_TRNG; i+=9) {
-
-    //     vertex_buffer_color[9*N_TRNG + i] = 120.0f;
-    //     vertex_buffer_color[9*N_TRNG + i+1] = 120.0f;
-    //     vertex_buffer_color[9*N_TRNG + i+2] = 120.0f;
-
-    //     vertex_buffer_color[9*N_TRNG + i+3] = 120.0f;
-    //     vertex_buffer_color[9*N_TRNG + i+4] = 120.0f;
-    //     vertex_buffer_color[9*N_TRNG + i+5] = 120.0f;
-
-    //     vertex_buffer_color[9*N_TRNG + i+6] = 120.0f;
-    //     vertex_buffer_color[9*N_TRNG + i+7] = 120.0f;
-    //     vertex_buffer_color[9*N_TRNG + i+8] = 120.0f;
-
-    // }
-
-    // for (int i=2; i<18; i+=3) {
-    //     vertex_buffer_color[18*N_TRNG+i] = 0.0f;
-    // }
-
-    // vertex_buffer_color[18*N_TRNG] = 255.0f;
-    // vertex_buffer_color[18*N_TRNG+1] = 128.0f;
-    // vertex_buffer_color[18*N_TRNG+3] = 255.0f;
-    // vertex_buffer_color[18*N_TRNG+4] = 128.0f;
-    // vertex_buffer_color[18*N_TRNG+6] = 255.0f;
-    // vertex_buffer_color[18*N_TRNG+7] = 128.0f;
-
-    // vertex_buffer_color[18*N_TRNG+9] = 255.0f;
-    // vertex_buffer_color[18*N_TRNG+10] = 128.0f;
-    // vertex_buffer_color[18*N_TRNG+12] = 255.0f;
-    // vertex_buffer_color[18*N_TRNG+13] = 128.0f;
-    // vertex_buffer_color[18*N_TRNG+15] = 255.0f;
-    // vertex_buffer_color[18*N_TRNG+16] = 128.0f;
-
     this->object = create3DObject(GL_TRIANGLES, 2*N_TRNG*3 + 6, vertex_buffer_data, color, GL_FILL);
 }
 

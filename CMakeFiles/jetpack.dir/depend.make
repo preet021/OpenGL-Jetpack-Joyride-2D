@@ -5,6 +5,10 @@ CMakeFiles/jetpack.dir/src/ball.cpp.o: src/ball.cpp
 CMakeFiles/jetpack.dir/src/ball.cpp.o: src/ball.h
 CMakeFiles/jetpack.dir/src/ball.cpp.o: src/main.h
 
+CMakeFiles/jetpack.dir/src/bank.cpp.o: src/bank.cpp
+CMakeFiles/jetpack.dir/src/bank.cpp.o: src/bank.h
+CMakeFiles/jetpack.dir/src/bank.cpp.o: src/main.h
+
 CMakeFiles/jetpack.dir/src/boomerang.cpp.o: src/boomerang.cpp
 CMakeFiles/jetpack.dir/src/boomerang.cpp.o: src/boomerang.h
 CMakeFiles/jetpack.dir/src/boomerang.cpp.o: src/main.h
@@ -32,6 +36,7 @@ CMakeFiles/jetpack.dir/src/magnet.cpp.o: src/magnet.h
 CMakeFiles/jetpack.dir/src/magnet.cpp.o: src/main.h
 
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/ball.h
+CMakeFiles/jetpack.dir/src/main.cpp.o: src/bank.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/boomerang.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/coin.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/firebeam.h
@@ -43,6 +48,7 @@ CMakeFiles/jetpack.dir/src/main.cpp.o: src/platform.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/propulsion.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/ring.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/score.h
+CMakeFiles/jetpack.dir/src/main.cpp.o: src/speedup.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/timer.h
 CMakeFiles/jetpack.dir/src/main.cpp.o: src/waterball.h
 
@@ -67,6 +73,10 @@ CMakeFiles/jetpack.dir/src/ring.cpp.o: src/ring.h
 CMakeFiles/jetpack.dir/src/score.cpp.o: src/main.h
 CMakeFiles/jetpack.dir/src/score.cpp.o: src/score.cpp
 CMakeFiles/jetpack.dir/src/score.cpp.o: src/score.h
+
+CMakeFiles/jetpack.dir/src/speedup.cpp.o: src/main.h
+CMakeFiles/jetpack.dir/src/speedup.cpp.o: src/speedup.cpp
+CMakeFiles/jetpack.dir/src/speedup.cpp.o: src/speedup.h
 
 CMakeFiles/jetpack.dir/src/timer.cpp.o: src/timer.cpp
 CMakeFiles/jetpack.dir/src/timer.cpp.o: src/timer.h

@@ -7,7 +7,8 @@ Ball::Ball(float x, float y, color_t color) {
     this->rotation = 0;
     this->acceleration = 1.0/200;
     this->speed_x = 0.0f;
-    this->speed_y_ascend = 0.1;
+    this->speed_x_act = 0.03;
+    this->speed_y_ascend = 0.06;
     this->speed_y_descend = 0.03;
     this->height = 0.4f;
     this->width = 0.4f;
@@ -57,14 +58,14 @@ void Ball::tick(direction_t dir) {
             this->position.y -= this->speed_y_descend;
             this->position.x += this->speed_x;
         }
-        else this->speed_y_descend = 0.03, this->speed_y_ascend = 0.1, this->speed_x = 0;
+        else this->speed_y_descend = 0.03, this->speed_y_ascend = 0.06;
     }
     else if (dir == DIR_RIGHT) {
-        this->speed_x = 0.02;
+        this->speed_x = speed_x_act;
         this->position.x += this->speed_x;
     }
     else if (dir == DIR_LEFT) {
-        this->speed_x = -0.02;
+        this->speed_x = -speed_x_act;
         this->position.x += this->speed_x;
     }
     else if (dir == DIR_UP) {

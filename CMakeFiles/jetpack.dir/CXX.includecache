@@ -16,6 +16,16 @@ ball.h
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bank.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+bank.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bank.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bank.h
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
@@ -127,6 +137,10 @@ boomerang.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
 score.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.h
+speedup.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/speedup.h
+bank.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bank.h
 iostream
 -
 
@@ -231,6 +245,16 @@ score.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.h
 
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/score.h
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/speedup.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+speedup.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/speedup.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/speedup.h
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 

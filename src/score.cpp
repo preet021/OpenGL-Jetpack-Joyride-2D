@@ -5,8 +5,8 @@ Score::Score(float x, float y, float rot, color_t color) {
 	
 	this->position = glm::vec3(x, y, 0);
     this->rotation = rot;
-    this->length = 0.3f;
-    this->thickness = 0.03f;
+    this->length = 0.2f;
+    this->thickness = 0.08f;
 
 	GLfloat vertex_buffer_data[] = {
 		0.0f, 0.0f, 0.0f,
@@ -15,7 +15,7 @@ Score::Score(float x, float y, float rot, color_t color) {
 
         thickness, 0.0f, 0.0f,
         thickness, length, 0.0f,
-        0.0f, thickness, 0.0f
+        0.0f, length, 0.0f
 	};
 
 	this->object = create3DObject(GL_TRIANGLES, 2*3, vertex_buffer_data, color, GL_FILL);
