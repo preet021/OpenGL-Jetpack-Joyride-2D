@@ -31,28 +31,28 @@ GLFWwindow *window;
 void detect_collisions();
 float dist(float a, float b, float c, float d);
 void display_score();
-void display_lives();
 
 Dragon dragon;
 Boomerang boom;
 Magnet magnet;
-vector <Propulsion> gas;
+Propulsion gas[20];
+Ball lives[10];
 Bank bank;
 Speedup speedup;
-vector <Ball> lives; 
-vector <Fireline> firelines;
-vector <Firebeam> firebeams;
-vector<Ring> rings;
+Firebeam firebeams[10];
+Fireline firelines[3];
 Ball ball;
+Ring rings[2];
 Platform platform;
-vector <Bullet> bullets;
+
+Bullet bullets[20];
 vector <Score> scr;
 vector <Coin> coins;
 vector <Waterball> waterballs;
 bounding_box_t b;
 color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52}, COLOR_RING = {220, 239, 157}, COLOR_BOOM = {243, 46 ,46}, COLOR_COIN1 = {20, 200, 20};
 
-int NO_OF_FIRELINES = 3, NO_OF_COINS = 5, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 10, NO_OF_MAGNETS = 1, NO_OF_RINGS = 2, NO_OF_BOOM = 5, score = 0, lives_remaining = 10;
+int NO_OF_FIRELINES = 3, NO_OF_COINS = 5, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 10, NO_OF_MAGNETS = 1, NO_OF_RINGS = 2, NO_OF_BOOM = 5, score = 0, lives_remaining = 10, NO_OF_BULLETS = 20;
 float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0, camera_rotation_angle = 0, cx, cy, r, screen_speed = 0.03, spd_inc = 0.3;
 bool onRing = 0, gravity = 1, has_speedup = 0;
 int ind, ticks_boom = 0, ticks_magnet = 0, ii=0, bullet_time = 50;
@@ -113,7 +113,7 @@ void draw() {
             waterballs[i].draw(VP);
     }
     
-    for (int i=0; i<NO_OF_GAS; ++i) {
+    for (int i=0; i<20; ++i) {
         if (gas[i].position.y != INF)
             gas[i].draw(VP);
     }
@@ -151,7 +151,7 @@ void draw() {
 
     if (dragon.present) dragon.draw(VP);
 
-    for (int i=0; i<sz(bullets); ++i) {
+    for (int i=0; i<NO_OF_BULLETS; ++i) {
         if (bullets[i].position.x != INF)
             bullets[i].draw(VP);
     }
@@ -234,9 +234,11 @@ void tick_input(GLFWwindow *window) {
         y = ball.position.y - ball.b.height/2.0;
         delta = -25.0 + rand() % 50;
         x = ball.position.x + ball.b.width*(delta/100.0);
-        gas.pb(Propulsion(x, y, COLOR_PROPULSION));
+        gas[NO_OF_GAS].position.x = x;
+        gas[NO_OF_GAS].position.y = y;
+        gas[NO_OF_GAS].ctime = 0;
                     
-        NO_OF_GAS += 1;
+        NO_OF_GAS = (NO_OF_GAS + 1) % 20;
         ball.tick(DIR_UP);
     }
     
@@ -285,7 +287,7 @@ void initGL(GLFWwindow *window, int width, int height) {
         float rotation = 50 + rand() % 80;
         x = 5 + rand() % 15;
         y = -1 + rand() % 4;
-        firelines.pb(Fireline(x, y, rotation, len, COLOR_FIRE));
+        firelines[i] = (Fireline(x, y, rotation, len, COLOR_FIRE));
     }
     
     magnet = Magnet(COLOR_MAGNET);
@@ -294,12 +296,16 @@ void initGL(GLFWwindow *window, int width, int height) {
         float len = 1 + rand() % 2;
         x = 30 + rand() % 70;
         y = -1;
-        firebeams.pb(Firebeam(x, y, len, COLOR_FIRE, 0));
-        firebeams.pb(Firebeam(x, y + 1, len, COLOR_FIRE, 1));
+        firebeams[i] = (Firebeam(x, y, len, COLOR_FIRE, 0));
+        firebeams[i+1] = (Firebeam(x, y + 1, len, COLOR_FIRE, 1));
     }
 
     for (int i=0; i<NO_OF_RINGS; ++i) {
-        rings.pb(Ring(5 + rand() % 10, -1 + rand() % 3, COLOR_RING));
+        rings[i] = (Ring(5 + rand() % 10, -1 + rand() % 3, COLOR_RING));
+    }
+
+    for (int i=0; i<20; ++i) {
+        gas[i] = (Propulsion(0, INF, COLOR_PROPULSION));
     }
 
     boom = Boomerang(COLOR_BOOM);
@@ -311,8 +317,13 @@ void initGL(GLFWwindow *window, int width, int height) {
     dragon = Dragon(3, 0);
 
     for (int i=0; i<lives_remaining; ++i) {
-        lives.pb(Ball(-2.5+i/2.0, -3.5, COLOR_BLACK));
+        lives[i] = (Ball(-2.5+i/2.0, -3.5, COLOR_BLACK));
     }
+
+    for (int i=0; i<NO_OF_BULLETS; ++i) {
+        bullets[i] = (Bullet(INF, dragon.position.y));
+    }
+    NO_OF_BULLETS = 0;
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
@@ -365,7 +376,7 @@ int main(int argc, char **argv) {
                     waterballs[i].tick();
             }
 
-            for (int i=0; i<NO_OF_GAS; ++i) {
+            for (int i=0; i<20; ++i) {
                 if (gas[i].position.y != INF)
                     gas[i].tick();
             }
@@ -378,7 +389,7 @@ int main(int argc, char **argv) {
                     firebeams[i].speed_y *= -1;
             }
 
-            for (int i=0; i<sz(bullets); ++i) {
+            for (int i=0; i<NO_OF_BULLETS; ++i) {
                 if (bullets[i].position.x != INF)
                     bullets[i].tick();
             }
@@ -434,7 +445,10 @@ int main(int argc, char **argv) {
                     dragon.speed_y *= -1;
                 if (bullet_time <= 0) {
                     bullet_time = 50;
-                    bullets.pb(Bullet(dragon.position.x, dragon.position.y));
+                    bullets[NO_OF_BULLETS].position.x = dragon.position.x;
+                    bullets[NO_OF_BULLETS].position.y = dragon.position.y;
+                    NO_OF_BULLETS++;
+                    NO_OF_BULLETS %= 20;
                 }
             }
 
@@ -660,7 +674,7 @@ void detect_collisions() {
     }
 
     // ball with dragon bullets
-    for (int i=0; i<sz(bullets) && !onRing && !has_speedup; ++i) {
+    for (int i=0; i<NO_OF_BULLETS && !onRing && !has_speedup; ++i) {
         if (bullets[i].position.x == INF) continue;
         if ((2 * abs(ball.b.x - bullets[i].b.x) < (ball.b.width + bullets[i].b.width)) 
             && (2 * abs(ball.b.y - bullets[i].b.y) < (ball.b.height + bullets[i].b.height))) {
