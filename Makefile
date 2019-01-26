@@ -204,6 +204,33 @@ src/boomerang.cpp.s:
 	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/boomerang.cpp.s
 .PHONY : src/boomerang.cpp.s
 
+src/bullet.o: src/bullet.cpp.o
+
+.PHONY : src/bullet.o
+
+# target to build an object file
+src/bullet.cpp.o:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/bullet.cpp.o
+.PHONY : src/bullet.cpp.o
+
+src/bullet.i: src/bullet.cpp.i
+
+.PHONY : src/bullet.i
+
+# target to preprocess a source file
+src/bullet.cpp.i:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/bullet.cpp.i
+.PHONY : src/bullet.cpp.i
+
+src/bullet.s: src/bullet.cpp.s
+
+.PHONY : src/bullet.s
+
+# target to generate assembly for a file
+src/bullet.cpp.s:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/bullet.cpp.s
+.PHONY : src/bullet.cpp.s
+
 src/coin.o: src/coin.cpp.o
 
 .PHONY : src/coin.o
@@ -257,6 +284,33 @@ src/color.s: src/color.cpp.s
 src/color.cpp.s:
 	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/color.cpp.s
 .PHONY : src/color.cpp.s
+
+src/dragon.o: src/dragon.cpp.o
+
+.PHONY : src/dragon.o
+
+# target to build an object file
+src/dragon.cpp.o:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/dragon.cpp.o
+.PHONY : src/dragon.cpp.o
+
+src/dragon.i: src/dragon.cpp.i
+
+.PHONY : src/dragon.i
+
+# target to preprocess a source file
+src/dragon.cpp.i:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/dragon.cpp.i
+.PHONY : src/dragon.cpp.i
+
+src/dragon.s: src/dragon.cpp.s
+
+.PHONY : src/dragon.s
+
+# target to generate assembly for a file
+src/dragon.cpp.s:
+	$(MAKE) -f CMakeFiles/jetpack.dir/build.make CMakeFiles/jetpack.dir/src/dragon.cpp.s
+.PHONY : src/dragon.cpp.s
 
 src/firebeam.o: src/firebeam.cpp.o
 
@@ -654,12 +708,18 @@ help:
 	@echo "... src/boomerang.o"
 	@echo "... src/boomerang.i"
 	@echo "... src/boomerang.s"
+	@echo "... src/bullet.o"
+	@echo "... src/bullet.i"
+	@echo "... src/bullet.s"
 	@echo "... src/coin.o"
 	@echo "... src/coin.i"
 	@echo "... src/coin.s"
 	@echo "... src/color.o"
 	@echo "... src/color.i"
 	@echo "... src/color.s"
+	@echo "... src/dragon.o"
+	@echo "... src/dragon.i"
+	@echo "... src/dragon.s"
 	@echo "... src/firebeam.o"
 	@echo "... src/firebeam.i"
 	@echo "... src/firebeam.s"

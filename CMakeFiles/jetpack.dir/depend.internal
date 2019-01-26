@@ -13,12 +13,20 @@ CMakeFiles/jetpack.dir/src/boomerang.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.cpp
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+CMakeFiles/jetpack.dir/src/bullet.cpp.o
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bullet.cpp
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bullet.h
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 CMakeFiles/jetpack.dir/src/coin.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.cpp
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 CMakeFiles/jetpack.dir/src/color.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/color.cpp
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+CMakeFiles/jetpack.dir/src/dragon.cpp.o
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/dragon.cpp
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/dragon.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 CMakeFiles/jetpack.dir/src/firebeam.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.cpp
@@ -39,7 +47,9 @@ CMakeFiles/jetpack.dir/src/main.cpp.o
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/ball.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bank.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/boomerang.h
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bullet.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.h
+ /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/dragon.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/firebeam.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/fireline.h
  /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.h

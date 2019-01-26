@@ -36,6 +36,16 @@ boomerang.h
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bullet.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+bullet.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bullet.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bullet.h
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/coin.cpp
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
@@ -49,6 +59,16 @@ main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/color.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/dragon.cpp
+main.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
+dragon.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/dragon.h
+
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/dragon.h
 main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 
@@ -103,8 +123,6 @@ main.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/main.h
 magnet.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.h
-cmath
--
 
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/magnet.h
 main.h
@@ -141,6 +159,10 @@ speedup.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/speedup.h
 bank.h
 /home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bank.h
+dragon.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/dragon.h
+bullet.h
+/home/preet/IIIT/2-2/Graphics/Assignments/1/jetpack-joyride/src/bullet.h
 iostream
 -
 

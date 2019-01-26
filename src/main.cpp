@@ -13,6 +13,8 @@
 #include "score.h"
 #include "speedup.h"
 #include "bank.h"
+#include "dragon.h"
+#include "bullet.h"
 #include <iostream>
 #define INF 999999999
 #define pb push_back
@@ -29,28 +31,31 @@ GLFWwindow *window;
 void detect_collisions();
 float dist(float a, float b, float c, float d);
 void display_score();
+void display_lives();
 
-Speedup speedup;
-Bank bank;
-Ball ball;
-Platform platform;
+Dragon dragon;
 Boomerang boom;
 Magnet magnet;
-vector <Score> scr;
-vector <Firebeam> firebeams;
-vector <Coin> coins;
-vector <Fireline> firelines;
-vector <Waterball> waterballs;
 vector <Propulsion> gas;
+Bank bank;
+Speedup speedup;
+vector <Ball> lives; 
+vector <Fireline> firelines;
+vector <Firebeam> firebeams;
 vector<Ring> rings;
-Ring shield[2];
+Ball ball;
+Platform platform;
+vector <Bullet> bullets;
+vector <Score> scr;
+vector <Coin> coins;
+vector <Waterball> waterballs;
 bounding_box_t b;
 color_t COLOR_BALL = {255, 255, 255}, COLOR_PLATFORM = {0, 153, 153}, COLOR_COIN = {255, 255, 102}, COLOR_FIRE = {255, 128, 0}, COLOR_WATER = {0, 128, 255}, COLOR_PROPULSION = {255, 255, 255}, COLOR_MAGNET = {238, 5, 52}, COLOR_RING = {220, 239, 157}, COLOR_BOOM = {243, 46 ,46}, COLOR_COIN1 = {20, 200, 20};
 
-int NO_OF_FIRELINES = 5, NO_OF_COINS = 28, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 4, NO_OF_MAGNETS = 0, NO_OF_RINGS = 6, NO_OF_BOOM = 5, score = 0, lives_remaining = 10;
-float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0, camera_rotation_angle = 0, cx, cy, r, screen_speed = 0.03, spd_inc = 0.2;
+int NO_OF_FIRELINES = 3, NO_OF_COINS = 5, NO_OF_WBALLS = 0, delay = 40, NO_OF_GAS = 0, NO_OF_FIREBEAMS = 10, NO_OF_MAGNETS = 1, NO_OF_RINGS = 2, NO_OF_BOOM = 5, score = 0, lives_remaining = 10;
+float screen_zoom = 1, screen_center_x = 0, screen_center_y = 0, camera_rotation_angle = 0, cx, cy, r, screen_speed = 0.03, spd_inc = 0.3;
 bool onRing = 0, gravity = 1, has_speedup = 0;
-int ind, ticks_boom = 0, ticks_magnet = 0;
+int ind, ticks_boom = 0, ticks_magnet = 0, ii=0, bullet_time = 50;
 
 Timer t60(1.0 / 60);
 
@@ -144,6 +149,17 @@ void draw() {
         bank.draw(VP);
     }
 
+    if (dragon.present) dragon.draw(VP);
+
+    for (int i=0; i<sz(bullets); ++i) {
+        if (bullets[i].position.x != INF)
+            bullets[i].draw(VP);
+    }
+
+    for (int i=0; i<lives_remaining; ++i) {
+        lives[i].draw(VP);
+    }
+
 }
 
 void tick_elements(bool dir) {
@@ -179,7 +195,14 @@ void tick_input(GLFWwindow *window) {
     int left  = glfwGetKey(window, GLFW_KEY_A);
     int right = glfwGetKey(window, GLFW_KEY_D);
     int up = glfwGetKey(window, GLFW_KEY_W);
-    int space = glfwGetKey(window, GLFW_KEY_SPACE);
+    int waterballoons = glfwGetKey(window, GLFW_KEY_SPACE);
+    int q = glfwGetKey(window, GLFW_KEY_Q);
+
+    if (q) {
+        cout << "----------------Game Over---------------\n";
+        cout << "Final Score: " << score + lives_remaining << endl;
+        quit(window);
+    }
 
     if (!onRing && gravity)
         ball.tick(DIR_DOWN);
@@ -217,7 +240,7 @@ void tick_input(GLFWwindow *window) {
         ball.tick(DIR_UP);
     }
     
-    if (space) {
+    if (waterballoons) {
         if (delay >= 40) {
             waterballs.pb(Waterball(ball.position.x, ball.position.y, COLOR_WATER));
             NO_OF_WBALLS++;
@@ -250,18 +273,17 @@ void initGL(GLFWwindow *window, int width, int height) {
     for (int i=0, x, y, t; i<NO_OF_COINS; ++i) {
         y = -1 + rand() % 4;
         color_t c;
-        t = rand() % 2;
-        if (!t) c = COLOR_COIN;
-        else c = COLOR_COIN1;
-        if (!t) x = 5 + rand() % 60;
-        else x = 20 + rand() % 100;
+        t = rand() % 6;
+        if (t >= 3) c = COLOR_COIN, t=0;
+        else c = COLOR_COIN1, t=1;
+        x = 3 + rand() % 10;
         coins.pb(Coin(x, y, c, t));
     }
     
     for (int i=0, x, y; i<NO_OF_FIRELINES; ++i) {
         float len = 1 + rand() % 2;
         float rotation = 50 + rand() % 80;
-        x = 5 + rand()%30;
+        x = 5 + rand() % 15;
         y = -1 + rand() % 4;
         firelines.pb(Fireline(x, y, rotation, len, COLOR_FIRE));
     }
@@ -270,21 +292,27 @@ void initGL(GLFWwindow *window, int width, int height) {
     
     for (int i=0, x, y; i<NO_OF_FIREBEAMS; i+=2) {
         float len = 1 + rand() % 2;
-        x = 40 + rand() % 35;
+        x = 30 + rand() % 70;
         y = -1;
         firebeams.pb(Firebeam(x, y, len, COLOR_FIRE, 0));
         firebeams.pb(Firebeam(x, y + 1, len, COLOR_FIRE, 1));
     }
 
     for (int i=0; i<NO_OF_RINGS; ++i) {
-        rings.pb(Ring(35 + rand() % 50, -1 + rand() % 3, COLOR_RING));
+        rings.pb(Ring(5 + rand() % 10, -1 + rand() % 3, COLOR_RING));
     }
 
     boom = Boomerang(COLOR_BOOM);
 
-    speedup = Speedup(20 + rand() % 20, 1);
+    speedup = Speedup(5 + rand() % 15, 1);
 
-    bank = Bank(0, 0);
+    bank = Bank(speedup.position.x+20, 1);
+
+    dragon = Dragon(3, 0);
+
+    for (int i=0; i<lives_remaining; ++i) {
+        lives.pb(Ball(-2.5+i/2.0, -3.5, COLOR_BLACK));
+    }
 
     // Create and compile our GLSL program from the shaders
     programID = LoadShaders("Sample_GL.vert", "Sample_GL.frag");
@@ -350,6 +378,11 @@ int main(int argc, char **argv) {
                     firebeams[i].speed_y *= -1;
             }
 
+            for (int i=0; i<sz(bullets); ++i) {
+                if (bullets[i].position.x != INF)
+                    bullets[i].tick();
+            }
+
             if (speedup.present)
             {
                 speedup.position.y += speedup.speed_y;
@@ -367,17 +400,24 @@ int main(int argc, char **argv) {
                 }
             }
 
-            if ((rand() % 1007 == 53) && !boom.present && NO_OF_BOOM > 0 && ticks_boom >= 1500) {
+            if (bank.present)
+            {
+                bank.position.y += bank.speed_y;
+                if (bank.position.y >= 3 || bank.position.y <= -1.5)
+                    bank.speed_y *= -1;
+            }
+
+            if (!boom.present && NO_OF_BOOM > 0 && ticks_boom >= 500) {
                 ticks_boom = 0;
-                NO_OF_BOOM--;
+                // NO_OF_BOOM--;
                 boom.present = true;
                 boom.position.y = 2.5;
                 boom.position.x = boom.cx + ((boom.position.y - boom.cy)*(boom.position.y - boom.cy));
             }
 
-            if ((rand() % 1007 == 93) && !magnet.present && NO_OF_MAGNETS > 0 && ticks_magnet >= 1000) {
+            if ((rand() % 1007 <= 93) && !magnet.present && NO_OF_MAGNETS > 0 && ticks_magnet >= 1000) {
                 ticks_magnet = 0;
-                NO_OF_MAGNETS--;
+                // NO_OF_MAGNETS--;
                 magnet.present = true;
                 magnet.position.x = -3 + rand() % 6;
                 magnet.position.y = -1.5 + rand() % 5;
@@ -385,6 +425,28 @@ int main(int argc, char **argv) {
                 magnet.direction = rand() % 2;
                 if (magnet.direction) magnet.rotation = 180.0f;
                 else magnet.rotation = 0.0f;
+            }
+
+            if (dragon.present)
+            {
+                dragon.position.y += dragon.speed_y;
+                if (dragon.position.y >= 3 || dragon.position.y <= -1.5)
+                    dragon.speed_y *= -1;
+                if (bullet_time <= 0) {
+                    bullet_time = 50;
+                    bullets.pb(Bullet(dragon.position.x, dragon.position.y));
+                }
+            }
+
+            if (dragon.t >= 2000)
+            {
+                dragon.present = true;
+            }
+
+            if (dragon.t >= 3000)
+            {
+                dragon.present = false;
+                dragon.t = 0;
             }
 
             if (lives_remaining == 0)
@@ -396,33 +458,28 @@ int main(int argc, char **argv) {
 
             ++ticks_magnet;
             ++ticks_boom;
+            ++dragon.t;
+            --bullet_time;
             
             if (magnet.present) {
-                if (ball.position.x >= magnet.position.x) {
-                    ball.position.x -= 0.02f;
-                    if (ball.position.x < magnet.position.x)
-                        ball.position.x = magnet.position.x;
-                    if (ball.position.y > magnet.position.y) {
-                        ball.position.y = (ball.position.y - 0.06 >= magnet.position.y) ? (ball.position.y - 0.06) : (magnet.position.y);
-                    } else {
-                        ball.position.y = (ball.position.y + 0.06 <= magnet.position.y) ? (ball.position.y + 0.06) : (magnet.position.y);
-                    }
+                // gravity = 0;
+                if (ball.position.x - magnet.position.x >= 0.1) {
+                    ball.position.x -= 0.05;
                 }
-                else if (ball.position.x < magnet.position.x) {
-                    ball.position.x += 0.02f;
-                    if (ball.position.x > magnet.position.x)
-                        ball.position.x = magnet.position.x;
-                    if (ball.position.y > magnet.position.y) {
-                        ball.position.y = (ball.position.y - 0.06 >= magnet.position.y) ? (ball.position.y - 0.06) : (magnet.position.y);
-                    } else {
-                        ball.position.y = (ball.position.y + 0.06 <= magnet.position.y) ? (ball.position.y + 0.06) : (magnet.position.y);
-                    }
+                else if (ball.position.x - magnet.position.x <= 0.1) {
+                    ball.position.x += 0.05;
+                }
+                if (ball.position.y - magnet.position.y >= 0.1) {
+                    ball.position.y -= 0.5;
+                }
+                else if (ball.position.y - magnet.position.y <= -0.1) {
+                    ball.position.y += 0.5;
                 }
                 magnet.tick();
             }
+            else gravity = 1;
 
         }
-
         // Poll for Keyboard and mouse events
         glfwPollEvents();
     }
@@ -438,17 +495,32 @@ void detect_collisions() {
     // ball and coins
     for (int i=0; i<NO_OF_COINS; ++i) {
         if (coins[i].position.x == INF) continue;
-        if ((2 * abs(ball.b.x - coins[i].b.x) < (ball.b.width + coins[i].b.width)) 
+        bool f = 0;
+        if (coins[i].position.x < -15) f = 1;
+        else if ((2 * abs(ball.b.x - coins[i].b.x) < (ball.b.width + coins[i].b.width)) 
             && (2 * abs(ball.b.y - coins[i].b.y) < (ball.b.height + coins[i].b.height))) {
-            if (!coins[i].type) ++score;
-            else score += 3;
+            f = 1;
             coins[i].position.x = INF;
+            if (!coins[i].type)
+                ++score;
+            else score += 3;
+        }
+        if (f && i < 5)
+        {
+            coins[i].b.x = coins[i].position.x = 5 + rand() % 10;
+            coins[i].b.y = coins[i].position.y = -1 + rand() % 5;
         }
     }
 
     // ball and fire
     for (int i=0; i<NO_OF_FIRELINES && !onRing && !has_speedup; ++i) {
-        if (firelines[i].position.x == INF) continue;
+        if (firelines[i].position.x == INF || firelines[i].position.x < -15)
+        {
+            firelines[i].rotation = 30 + rand() % 100;
+            firelines[i].position.x = 5 + rand() % 15;
+            firelines[i].position.y = -1 + rand() % 4;
+            continue;
+        }
         float delta = firelines[i].length*cos(firelines[i].rotation*M_PI/180.0);
         float x1, x2, y1, y2;
         x1 = firelines[i].position.x;
@@ -485,7 +557,13 @@ void detect_collisions() {
     for (int i=0; i<NO_OF_WBALLS; ++i) {
         if (waterballs[i].position.x == INF) continue;
         for (int j=0; j<NO_OF_FIRELINES; ++j) {
-            if (firelines[j].position.x == INF) continue;
+            if (firelines[j].position.x == INF || firelines[i].position.x < -15)
+            {
+                firelines[i].rotation = 30 + rand() % 100;
+                firelines[i].position.x = 5 + rand() % 15;
+                firelines[i].position.y = -1 + rand() % 4;
+                continue;
+            }
             float delta = firelines[j].length*cos(firelines[j].rotation*M_PI/180.0);
             float x1, x2, y1, y2;
             x1 = firelines[j].position.x;
@@ -517,13 +595,19 @@ void detect_collisions() {
 
     // check if ball is on any ring
     for (int i=0; i<NO_OF_RINGS && !has_speedup; ++i) {
+        if (rings[i].position.x < -15 - rings[i].radius) {
+            rings[i].position.x = 5 + rand() % 30;
+            rings[i].position.y = -1 + rand() % 4;
+            continue;
+        }
         bool a, b;
         cx = rings[i].position.x, cy = rings[i].position.y, r = rings[i].radius + rings[i].thickness / 2.0;
         a = (abs(dist(ball.position.x, ball.position.y, rings[i].position.x, rings[i].position.y) - rings[i].radius - rings[i].thickness) <= 0.1);
         b = ((ball.position.y >= rings[i].position.y) && (ball.position.y <= rings[i].position.y + rings[i].radius + rings[i].thickness / 2.0));
         if (a && b) {
             ball.position.y = cy + sqrt(abs(r*r - (ball.position.x-cx)*(ball.position.x-cx)));
-            onRing = 1; ind=i;
+            onRing = 1;
+            ind = i;
             cx = rings[i].position.x, cy = rings[i].position.y, r = rings[i].radius + rings[i].thickness / 2.0;
         }
     }
@@ -557,12 +641,33 @@ void detect_collisions() {
     if (bank.present && (2 * abs(ball.b.x - bank.b.x) < (ball.b.width + bank.b.width)) 
         && (2 * abs(ball.b.y - bank.b.y) < (ball.b.height + bank.b.height))) {
         bank.present = false;
-        cy = bank.position.y;
-        for (int i=0; i<5; ++i, cy+=0.4) {
-            cx = bank.position.x + 1;
-            for (int j=0; j<5; ++j, cx+=0.4) {
+        cy = ball.position.y;
+        for (int i=0, c=1; i<5; ++i, cy+=0.4) {
+            cx = ball.position.x + 2;
+            for (int j=0; j<(5-c)/2; ++j, cx+=0.4) {
                 coins.pb(Coin(cx, cy, COLOR_COIN, 0));
             }
+            for (int j=0; j<c; ++j, cx+=0.4) {
+                coins.pb(Coin(cx, cy, COLOR_COIN1, 1));
+            }
+            for (int j=0; j<(5-c)/2; ++j, cx+=0.4) {
+                coins.pb(Coin(cx, cy, COLOR_COIN, 0));
+            }
+            if (i >= 2) c -= 2;
+            else c += 2;
+        }
+        NO_OF_COINS += 25;
+    }
+
+    // ball with dragon bullets
+    for (int i=0; i<sz(bullets) && !onRing && !has_speedup; ++i) {
+        if (bullets[i].position.x == INF) continue;
+        if ((2 * abs(ball.b.x - bullets[i].b.x) < (ball.b.width + bullets[i].b.width)) 
+            && (2 * abs(ball.b.y - bullets[i].b.y) < (ball.b.height + bullets[i].b.height))) {
+            bullets[i].position.x = INF;
+            --lives_remaining;
+            ball.position.x = -3;
+            ball.position.y = 5;
         }
     }
 
@@ -577,19 +682,19 @@ void display_score () {
     for (int i=0, dgt, p=10; i<4; p*=10, ++i) {
         dgt = (10 * (score % p)) / p;
         if (dgt == 0 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-3.5+(3-i)/2.0, -3 + 0.3, 0, COLOR_BLACK));
+            scr.pb(Score(-1+(3-i)/2.0, -3 + 0.3, 0, COLOR_BLACK));
         if (dgt == 0 || dgt == 2 || dgt == 6 || dgt == 8)
-            scr.pb(Score(-3.5+(3-i)/2.0, -3, 0, COLOR_BLACK));
+            scr.pb(Score(-1+(3-i)/2.0, -3, 0, COLOR_BLACK));
         if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-3.5+(3-i)/2.0+0.1, -3 + 0.6, 270, COLOR_BLACK));
+            scr.pb(Score(-1+(3-i)/2.0+0.1, -3 + 0.6, 270, COLOR_BLACK));
         if (dgt == 2 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-3.5+(3-i)/2.0+0.1, -3 + 0.3, 270, COLOR_BLACK));
+            scr.pb(Score(-1+(3-i)/2.0+0.1, -3 + 0.3, 270, COLOR_BLACK));
         if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-3.5+(3-i)/2.0+0.1, -3, 270, COLOR_BLACK));
+            scr.pb(Score(-1+(3-i)/2.0+0.1, -3, 270, COLOR_BLACK));
         if (dgt == 0 || dgt == 1 || dgt == 2 || dgt == 3 || dgt == 4 || dgt == 7 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-3.5+(3-i)/2.0+0.3, -3 + 0.3, 0, COLOR_BLACK));
+            scr.pb(Score(-1+(3-i)/2.0+0.3, -3 + 0.3, 0, COLOR_BLACK));
         if (dgt == 0 || dgt == 1 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-3.5+(3-i)/2.0+0.3, -3, 0, COLOR_BLACK));
+            scr.pb(Score(-1+(3-i)/2.0+0.3, -3, 0, COLOR_BLACK));
     }
 }
 

@@ -6,7 +6,7 @@ Platform::Platform(float x, float y, color_t color) {
     this->position = glm::vec3(x, y, 0);
     this->rotation = 0;
     height = 2.0f;
-    width = 4.0f;
+    width = 4000.0f;
 
     GLfloat vertex_buffer_data[] = {
          width, -height, 0.0f,

@@ -12,7 +12,7 @@ Speedup::Speedup(float x, float y) {
     this->thickness = 0.15f;
     this->speed_y = 0.1;
     this->present = true;
-    this->rtime = 100;
+    this->rtime = 50;
 
     int sz = 9*N_TRNG;
     GLfloat vertex_buffer_data[sz+36*N_BLCK], vertex_buffer_color[sz+36*N_BLCK];

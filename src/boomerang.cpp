@@ -38,7 +38,7 @@ void Boomerang::tick() {
     this->rotation += 5;
     this->position.y += this->speed_y;
     this->position.x = this->cx + ((this->position.y - this->cy)*(this->position.y - this->cy));
-    if (this->position.x > 5)
+    if (this->position.x > 5 || this->position.y < -2 || this->position.y > 4)
         this->present = false;
     this->b.x = this->position.x;
     this->b.y = this->position.y + 0.25;

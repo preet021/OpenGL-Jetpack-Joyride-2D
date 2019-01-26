@@ -2,7 +2,6 @@
 #include "magnet.h"
 #define N_TRNG 360
 #define INF 999999999
-#include <cmath>
 
 Magnet::Magnet(color_t color) {
 
@@ -56,6 +55,6 @@ void Magnet::draw(glm::mat4 VP) {
 
 void Magnet::tick () {
     this->ctime += 1;
-    if (this->ctime > 1000)
+    if (this->ctime > 200)
         this->present = 0;
 }

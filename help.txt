@@ -1,0 +1,20 @@
+All the requirements of the game have been implemented. Bonus things are written in point 4 below.
+
+1. Score/Health Display:
+The score is displayed at the bottom of the screen. Score display is done using seven segments. The objects below it denote the number of remaining lives of the player.
+
+2. Coins:
+There are two different types of coins, with different score value.
+
+3. Powerups/Special flying objects:
+3a. Speed up + Shield: speed of the game increases i.e. the world starts moving faster, the player is protected from any enemies out there.
+
+3b. Coin Bank: a power-up where the player gets a chance to earn 25 coins.
+
+4. Bonus:
+4a. Dragon: fires bullets at the player. 
+
+4b. Shield is given to the player during speed up and when it is on the ring.
+
+5. Controls:
+    W, A, D for up, left and right movement respectively; space key for shooting water balloons.
