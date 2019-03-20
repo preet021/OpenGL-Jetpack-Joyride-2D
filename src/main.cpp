@@ -44,6 +44,7 @@ Fireline firelines[3];
 Ball ball;
 Ring rings[2];
 Platform platform;
+Score sc;
 
 Bullet bullets[20];
 vector <Score> scr;
@@ -310,6 +311,8 @@ void initGL(GLFWwindow *window, int width, int height) {
 
     boom = Boomerang(COLOR_BOOM);
 
+    sc = Score(0, 0, 0, COLOR_BLACK);
+
     speedup = Speedup(5 + rand() % 15, 1);
 
     bank = Bank(speedup.position.x+20, 1);
@@ -426,7 +429,7 @@ int main(int argc, char **argv) {
                 boom.position.x = boom.cx + ((boom.position.y - boom.cy)*(boom.position.y - boom.cy));
             }
 
-            if ((rand() % 1007 <= 93) && !magnet.present && NO_OF_MAGNETS > 0 && ticks_magnet >= 1000) {
+            if ((rand() % 1007 <= -93) && !magnet.present && NO_OF_MAGNETS > 0 && ticks_magnet >= 1000) {
                 ticks_magnet = 0;
                 // NO_OF_MAGNETS--;
                 magnet.present = true;
@@ -695,20 +698,41 @@ void display_score () {
     scr.clear();
     for (int i=0, dgt, p=10; i<4; p*=10, ++i) {
         dgt = (10 * (score % p)) / p;
-        if (dgt == 0 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-1+(3-i)/2.0, -3 + 0.3, 0, COLOR_BLACK));
-        if (dgt == 0 || dgt == 2 || dgt == 6 || dgt == 8)
-            scr.pb(Score(-1+(3-i)/2.0, -3, 0, COLOR_BLACK));
-        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-1+(3-i)/2.0+0.1, -3 + 0.6, 270, COLOR_BLACK));
-        if (dgt == 2 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-1+(3-i)/2.0+0.1, -3 + 0.3, 270, COLOR_BLACK));
-        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-1+(3-i)/2.0+0.1, -3, 270, COLOR_BLACK));
-        if (dgt == 0 || dgt == 1 || dgt == 2 || dgt == 3 || dgt == 4 || dgt == 7 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-1+(3-i)/2.0+0.3, -3 + 0.3, 0, COLOR_BLACK));
-        if (dgt == 0 || dgt == 1 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9)
-            scr.pb(Score(-1+(3-i)/2.0+0.3, -3, 0, COLOR_BLACK));
+        if (dgt == 0 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
+            sc.position = glm::vec3(-1+(3-i)/2.0, -3 + 0.3, 0);
+            sc.rotation = 0;
+            scr.pb(sc);
+        }
+        if (dgt == 0 || dgt == 2 || dgt == 6 || dgt == 8) {
+            sc.position = glm::vec3(-1+(3-i)/2.0, -3,0);
+            sc.rotation = 0;
+            scr.pb(sc);
+        }
+        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9) {
+            sc.position = glm::vec3(-1+(3-i)/2.0+0.1, -3 + 0.6,0);
+            sc.rotation = 270;
+            scr.pb(sc);
+        }
+        if (dgt == 2 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
+            sc.position = glm::vec3(-1+(3-i)/2.0+0.1, -3 + 0.3,0);
+            sc.rotation = 270;
+            scr.pb(sc);
+        }
+        if (dgt == 0 || dgt == 2 || dgt == 3 || dgt == 5 || dgt == 6 || dgt == 8 || dgt == 9) {
+            sc.position = glm::vec3(-1+(3-i)/2.0+0.1, -3,0);
+            sc.rotation = 270;
+            scr.pb(sc);
+        }
+        if (dgt == 0 || dgt == 1 || dgt == 2 || dgt == 3 || dgt == 4 || dgt == 7 || dgt == 8 || dgt == 9) {
+            sc.position = glm::vec3(-1+(3-i)/2.0+0.3, -3 + 0.3,0);
+            sc.rotation = 0;
+            scr.pb(sc);
+        }
+        if (dgt == 0 || dgt == 1 || dgt == 3 || dgt == 4 || dgt == 5 || dgt == 6 || dgt == 7 || dgt == 8 || dgt == 9) {
+            sc.position = glm::vec3(-1+(3-i)/2.0+0.3, -3,0);
+            sc.rotation = 0;
+            scr.pb(sc);
+        }
     }
 }
 
